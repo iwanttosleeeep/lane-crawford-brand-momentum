@@ -1,23 +1,28 @@
-# Data collection provenance and reproducibility
+# Collection provenance and reproducibility
 
-This directory keeps source code and non-sensitive collection configuration for the Lane Crawford final project.
+This folder preserves original, non-sensitive collection scripts and configurations for the 30-brand Lane Crawford dataset.
 
-## Available in this repository
+## Original materials restored
 
-- `download_images.py`: **the original Python script used for this dataset**, recovered from the project conversation upload without functional changes. It reads Apify JSON list exports, filters Image/Sidecar posts, samples up to 15 posts per account-month (seed 6207), downloads each image slide, resizes to a maximum long edge of 1,024 px, and records a CSV manifest. It does not save captions. The original invocation used `--since 2024-11-01 --per-month 15 --max-per-post 0` and three export files. Actual downloaded data are in the shared Drive, not GitHub.
-- `apify_official_accounts.json`: a **reconstructed non-sensitive account-list template** generated from the current 30 entries in `brands.csv`; it is not an archival copy of the exact original Apify run settings, which varied between export batches. Each URL is an official brand handle only.
+- [download_images.py](download_images.py) — the original downloader used for the final image ZIP. It reads exported Apify JSON datasets, filters Image/Sidecar posts, samples up to 15 posts per account/month (seed 6207), downloads all available image slides, resizes long edges to a maximum of 1024 px and writes a manifest. Source media and raw captions are not committed.
+- [analyse_probe.py](analyse_probe.py) — the **original** first-run Apify probe analysis script (posts, account coverage, estimated posting rates and costs). Example invocation: `python src/collection/analyse_probe.py probe_export.json /path/to/probe_output`.
+- [apify_inputs/](apify_inputs/) — the **four original JSON inputs actually used in Apify Console**, preserved verbatim from the provenance archive supplied by the team:
+  1. `01_probe_latest20.json` — preliminary 30-account probe, latest 20 posts per account (NOT part of the final image dataset).
+  2. `02_trudon_depth_test.json` — Trudon depth test; this export *was* used as the final Trudon data.
+  3. `03_batch1_free.json` — eleven-account final collection batch.
+  4. `04_batch2_starter.json` — eighteen-account final collection batch.
+- [APIFY_RUNS.md](APIFY_RUNS.md) — the original run ledger recording settings, dates, returned counts, changes to verified handles and batch composition.
 
-## Original scripts still to restore (do not invent replacements and call them original)
+**Source accounting:** Final image data came from exports of runs **2, 3 and 4 only** (30 brand accounts, 12,167 export items in total). The downloader dry run chose 7,018 source posts and 22,882 images; 22,850 images were saved. The complete image ZIP and manifest are in the group Drive.
 
-- Lane Crawford catalogue retrieval, brand selection, matching and current-sale verification.
-- Google Trends retrieval and finalisation. An earlier working directory reportedly contained `src/trends/finalize_trends.py`; that original file has **not** been copied into this new repository.
-- Initial Apify probe analysis and related data-quality scripts, if available.
+## Original scripts not yet restored
 
-If a teammate has the actual original scripts in the earlier local repository/workspace, copy them here (or under `src/trends/` for Trends code), keeping the original file contents and a short note of how each script was run. Code that is newly recreated from a description should be labelled **reconstructed**, not a verified original.
+The files above fully document **Apify inputs, the probe analyser and the image downloader**, but **do not reproduce every earlier brand-selection or Google Trends extraction step**. The original Lane Crawford catalogue/brand-selection scripts and Google Trends retrieval/finalisation scripts (historically in an earlier project directory) still need to be copied from that workspace if obtainable. Do not invent new scripts and describe them as original collection code.
 
-## Privacy, access and replay notes
+## Security and reproducibility
 
-- Original Apify JSON exports are **not committed** because they may contain captions, user details or temporary URLs. Raw images are also **not committed**; use the group-shared Drive ZIP and its manifest.
-- The Apify actor input file here only lists official Instagram URLs. Other options (date window, limits and pinned-post behavior) used in different collection batches should be documented from actual run records, not assumed from this template.
-- Instagram media links from Apify can expire; reproducing an older download may require a new legal/public collection instead of replaying historical URLs.
-- Preserve raw data outside Git and use the manifest to audit coverage. A new modelling sample (up to 10 **distinct posts** per brand-month, first available image only) is **different from** the original download script's source-post sample and must be recorded separately by C.
+- Four original **actor configuration JSON files** can be committed because they list only official brand-account URLs and scraper settings. Do not commit exported Apify datasets: they may include captions, personal data and ephemeral image URLs.
+- Image files stay in the privately shared Google Drive ZIP, not GitHub.
+- The probe run contains two old handles (`aesopskincare`, `fretteofficial`) and `riedel_official`; the final account list was corrected as documented in APIFY_RUNS.md. Avoid rerunning the probe input as the final dataset configuration.
+- Extracting a fresh dataset on a later date is not guaranteed to return the same posts, even with identical actor settings.
+- C's modelling sample is **up to 10 distinct posts per brand-month, one first-available image per post**. This is a separate second-stage subsample and is not the same operation as the original downloader's up-to-15-posts-per-month selection.
