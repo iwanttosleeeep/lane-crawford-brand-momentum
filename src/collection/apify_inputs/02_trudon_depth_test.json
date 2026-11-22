@@ -1,0 +1,10 @@
+{
+  "directUrls": [
+    "https://www.instagram.com/trudon/"
+  ],
+  "resultsType": "posts",
+  "resultsLimit": 1200,
+  "onlyPostsNewerThan": "2024-11-01",
+  "skipPinnedPosts": true,
+  "addParentData": false
+}
