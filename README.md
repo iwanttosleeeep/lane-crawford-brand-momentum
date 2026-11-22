@@ -138,6 +138,26 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - D → E: integrated monthly image features.
 - E → A: model evaluation, final watchlist and evidence for business recommendations.
 
+### Fixed feature-extraction contract (C, D and E)
+
+**Follow this contract directly rather than letting separate agents design incompatible features.** The three pretrained models are feature extractors, not competing forecasting models. C runs CLIP + YOLO; D runs OCR and integrates their results; E performs prediction and evaluation. Internal testing is not a separate team deliverable.
+
+1. **Shared image sample (C; due 25 Nov).** Use only successfully downloaded, existing images listed in the download manifest. Select **up to 10 images per slug × calendar month** using a deterministic random seed (**42**), without replacement. Derive month as YYYY-MM from the original UTC timestamp. Freeze one outputs/images/sample_manifest.csv with exactly these columns: **image_id, file, handle, slug, shortCode, slide, timestamp, month**. Define **image_id = file**, where file is the original relative image path; ensure uniqueness. C and D must process **exactly the same image_ids** and must not independently resample or silently exclude brands/months. Log corrupted/missing images.
+
+2. **Shared model settings.** Use pretrained inference (evaluation mode), without fine-tuning. Record the model checkpoint, versions, preprocessing, confidence threshold and number of valid images; apply the same settings across all brands for each model. Recommended defaults unless members agree and document a change before processing: **CLIP ViT-B/32**, **YOLO11n pretrained on COCO**, **EasyOCR English**.
+
+3. **CLIP per-image output (C).** One row per image_id, with a fixed-length visual embedding in columns **clip_000, clip_001, ...** in consistent order. State embedding dimension and checkpoint in clip_yolo_notes.md. No PCA/normalisation fitted across the full dataset; train-only fitting belongs to E.
+
+4. **YOLO per-image output (C).** One row per image_id, including **yolo_n_detections** and detection counts for every COCO class as **yolo_<class>_count**, with snake_case class names and a consistent model-wide confidence threshold (default **0.25**). Classes with no detections are zero, not omitted columns. Generic COCO classes cannot distinguish every luxury product or brand.
+
+5. **OCR per-image output (D).** One row per image_id, including **ocr_has_text** (0/1), **ocr_n_regions**, **ocr_n_chars**, **ocr_has_brand_mention** (0/1). For brand mentions use case-insensitive matching to brand_name in brands.csv after normalising punctuation/whitespace; document limitations. Store numerical summaries rather than full transcriptions in the feature table.
+
+6. **D's monthly aggregation.** Start from the frozen sample manifest and left-join one-to-one by image_id to CLIP, YOLO and OCR results. Check duplicates and coverage; do **not** turn a failed image/model result into a zero count. Aggregate **one row per slug × month**, retaining **n_images**, availability/missingness indicators and the **mean of each numeric CLIP dimension, YOLO count and OCR feature over valid images**. Export outputs/images/monthly_image_features.parquet (or CSV) and a feature dictionary. These values describe the sampled images, not all Instagram content.
+
+7. **E's forecasting input.** At origin month **t**, use image features from **t and earlier only**; never use t+1 or later. Use image summaries over **t−2 to t** as the default three-month history, with explicit handling for missing brand-months. Fit imputation, scaling, PCA, feature selection and regressions **on the training set only**, then apply to validation/test. Use B's exact target and evaluation rows.
+
+**Delivery dependencies:** C publishes the frozen sample by **25 Nov**, both complete per-image CLIP/YOLO tables by **28 Nov**, and documentation by **29 Nov**. D runs OCR as soon as the sample is frozen, then integrates C's completed files and delivers the monthly features to E by **29 Nov**. If an embeddings file is too large for GitHub, share it via the group Drive and document the exact Drive location and schema in the repo. Any changes to this contract must be agreed by affected members before downstream work begins.
+
 **Cross-brand Trends caution:** Each Google Trends series may be scaled to 0–100 independently; 19 brands use Topics and 11 use search queries. Raw values are **not comparable absolute search volumes across brands**. Analyse within-brand changes, document the limitations of cross-brand ranking, and do not equate predicted search attention with sales.
 
 ## 5. Timeline
