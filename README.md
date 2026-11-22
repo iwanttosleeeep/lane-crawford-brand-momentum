@@ -68,10 +68,10 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Required outputs:**
 - outputs/trends/trends_monthly.csv — slug, month, trend_value, valid_from (plus documented source metadata).
 - outputs/trends/targets_and_split.csv — slug, origin_month, target_growth, split (and any historical features).
-- outputs/trends/baseline_predictions.csv — slug, origin_month, y_true, y_pred, model.
-- outputs/trends/baseline_metrics.csv and outputs/trends/README.md — metrics, plots, assumptions, decisions and run instructions.
+- outputs/trends/baseline_predictions.csv — slug, origin_month, y_true, y_pred, model, training_window (matched_2025 or extended_history).
+- outputs/trends/baseline_metrics.csv and outputs/trends/README.md — results for both training histories, coverage, anomaly checks, limitations and reproducible run instructions.
 
-**Required handoff by 25 Nov:** Confirm the final target and split with E before either model is finalised.
+**Required handoff by 25 Nov:** Confirm the fixed target and split with E before either model is finalised. **Final deliverables: 29 Nov.** E independently reviews B's results by **1 Dec**.
 
 ### C — CLIP and YOLO feature extraction
 
@@ -90,7 +90,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/images/yolo_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
 - outputs/images/clip_yolo_notes.md — model versions, sample coverage, feature definitions, QC and reproducible commands.
 
-**Required handoffs:** Send D the frozen **sample_manifest.csv** by **25 Nov** and both complete **per-image CLIP and YOLO feature files** by **28 Nov**, so D can integrate them. Final C documentation/QC is due **29 Nov**.
+**Required handoffs:** Send D the frozen **sample_manifest.csv** by **25 Nov** and both complete **per-image CLIP and YOLO feature files** by **28 Nov**, so D can integrate them. Final C documentation/QC is due **29 Nov**. B independently reviews C by **1 Dec**.
 
 ### D — OCR and monthly feature integration
 
@@ -108,7 +108,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/images/monthly_image_features.parquet (or CSV) — slug, month, n_images plus numeric feature columns.
 - outputs/images/feature_dictionary.md and outputs/images/integration_checks.md — schema and verification results.
 
-**Due:** Complete OCR features and integrated monthly image features by **29 Nov**. Do not wait for C's final documentation to start OCR.
+**Due:** Complete OCR features and integrated monthly image features by **29 Nov**. Do not wait for C's final documentation to start OCR. C independently reviews D by **1 Dec**.
 
 ### E — Multimodal prediction, evaluation, and results
 
@@ -128,7 +128,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/models/future_forecasts.csv — slug, forecast_origin, predicted_growth, model.
 - outputs/models/figures/ and outputs/models/README.md — plots, evaluation protocol, error analysis, reproducible commands.
 
-**Due:** Validated model comparison and figures by **3 Dec**.
+**Due:** Complete model comparison and figures by **3 Dec**. D independently reviews E by **5 Dec**.
 
 ## 4. Shared interfaces and dependencies
 
@@ -185,17 +185,19 @@ The primary fair comparison trains Trends-only and multimodal models on **the sa
 
 | Date (2026) | Checkpoint |
 | --- | --- |
-| **25 Nov** | B and E confirm the target and data split; C shares the final sample manifest with D |
+| **25 Nov** | B and E confirm the target and data split; C shares the frozen post-level sample manifest with D |
 | **28 Nov** | C delivers both CLIP/YOLO feature files to D for integration |
-| **29 Nov** | B, C and D complete their assigned work and upload final outputs |
-| **3 Dec** | E completes model comparison, evaluation and forecasts; A receives the results |
-| **5 Dec** | A completes brand analysis and business recommendations |
+| **29 Nov** | B, C and D complete and upload their outputs |
+| **1 Dec** | Independent reviews due: E→B, B→C and C→D |
+| **2 Dec** | A decides whether the optional new-brand data collection is feasible/required and confirms any paid access |
+| **3 Dec** | E completes model comparison, evaluation and forecasts; A receives results |
+| **5 Dec** | A completes brand analysis; D→E independent review due |
 | **6 Dec** | Figures, slides and video ready for final review |
 | **7 Dec** | Presentation video submission |
 | **11 Dec** | Final presentation (10-minute presentation + 5-minute Q&A) |
 | **18 Dec** | Final IEEE report (maximum 4 A4 pages) |
 
-Please commit incremental intermediate outputs **before** the due dates so downstream members are not blocked.
+Please commit incremental intermediate outputs **before** the due dates so downstream members are not blocked. Reviews are required in a fresh AI session, preferably with a different model, and recorded in the repository.
 
 ## 6. How each member should start with their coding agent
 
@@ -206,7 +208,7 @@ Read README.md and AGENTS.md in this repository thoroughly. I am responsible for
 
 First inspect the actual available inputs and identify any dependencies that are missing. Extract Google Trends.zip before using the paths in brands.csv. Implement only my assigned workstream, using the specified output paths and join keys. Test your code internally, then run and verify the full eligible data; intermediate test results do not need to be submitted separately.
 
-Do not fabricate outputs, data-quality claims, evaluation metrics or results. Keep model versions, data coverage, exact run commands, and any limitations in the workstream notes. Commit code and small derived outputs to my own branch; do not commit raw images, large files or credentials. Return the filenames created, actual metrics observed and any blockers.
+Do not fabricate outputs, data-quality claims, evaluation metrics or results. Keep model versions, data coverage, exact run commands, and any limitations in the workstream notes. Commit code and small derived outputs to my own branch; do not commit raw images, large files or credentials. Independently review my assigned peer's work using a fresh session or a different LLM per Section 7 and submit a review file within two days of their final output. Return filenames, actual metrics and blockers.
 ~~~
 
 Team members can implement in Colab, locally, or another suitable environment. Each owns the code, evidence and results for their workstream; an AI agent may help implement it but **must not substitute imaginary results for execution**.
@@ -219,11 +221,24 @@ Team members can implement in Colab, locally, or another suitable environment. E
 - Fix a random seed where applicable and report sample counts by brand/month.
 - Don't train and evaluate on overlapping future target information; train/test fairness matters more than fitting a convenient number of rows.
 - If image features fail to improve the baseline, **report that result honestly** and investigate errors.
-- Independently verify a sample of image-model outputs and regenerate numerical tables from code.
+- Independently verify a sample of image-model outputs and regenerate numerical tables from code. Follow the formal cross-review assignments below.
 - Work on a separate branch and open a pull request, so other members can review the changes.
 - Do not commit copyrighted raw Instagram images, personal data, tokens, passwords or oversized files. Keep large datasets in the group-shared Drive.
 - Keep relevant AI session transcripts and verification notes for the coursework submission.
 
+### Mandatory independent cross-checks
+
+The lecturer requires verification of coding-agent output. **Do not use the original implementation chat as the review.** Start a fresh AI session, ideally with a **different LLM**, and independently check the other member's submitted code, methods, generated files and selected numerical outputs. The reviewer should rerun a small independent check where feasible, inspect source-vs-output consistency, identify data leakage or schema mismatches, and write a short evidence-based review. The author fixes issues and records resolutions before the work is considered verified.
+
+| Reviewer | Workstream reviewed | Main outputs due | Review deadline |
+| --- | --- | --- | --- |
+| **B** | **C** — sample, CLIP/YOLO and coverage | 29 Nov | **1 Dec** |
+| **C** | **D** — OCR and merged monthly features | 29 Nov | **1 Dec** |
+| **D** | **E** — model split, metrics, comparisons and forecasts | 3 Dec | **5 Dec** |
+| **E** | **B** — Trends/targets, baselines, scaling caveats | 29 Nov | **1 Dec** |
+
+Reviews must be completed within **two days of the relevant final handoff**. Save as `reviews/B_reviews_C.md`, `reviews/C_reviews_D.md`, `reviews/D_reviews_E.md`, `reviews/E_reviews_B.md`. Each review records: independent reviewer and tool/session, files checked, test commands or recalculations performed, factual findings, open issues and author fixes. Report actual observations; never sign off unseen results.
+
 ## 8. Final deliverables
 
-A concise, evidence-backed final package: dataset and method summary; baseline and multimodal forecasts on a shared test set; MAE/rank evaluation; visual-feature findings; rising/declining brand watchlist; business recommendations and selected new-brand cases; code/reproducibility materials; presentation video and final report.
+A concise, evidence-backed final package: dataset and method summary; matched-history and extended-history Trends baselines; multimodal forecasts on a shared test set; MAE/rank evaluation; visual-feature findings; rising/declining brand watchlist; business recommendations (plus optional new-brand cases where feasible/required); source code and independent-review evidence; presentation video and final report.
