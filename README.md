@@ -64,7 +64,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/trends/baseline_predictions.csv — slug, origin_month, y_true, y_pred, model.
 - outputs/trends/baseline_metrics.csv and outputs/trends/README.md — metrics, plots, assumptions, decisions and run instructions.
 
-**First checkpoint:** Share the proposed target and split with E by **25 Nov**, before either model is finalised.
+**Required handoff by 25 Nov:** Confirm the final target and split with E before either model is finalised.
 
 ### C — CLIP and YOLO feature extraction
 
@@ -83,7 +83,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/images/yolo_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
 - outputs/images/clip_yolo_notes.md — model versions, sample coverage, feature definitions, QC and reproducible commands.
 
-**First checkpoint:** Send D the **sample_manifest.csv** as soon as it is frozen (target **25 Nov**). C's full extracted features are due **29 Nov**.
+**Required handoff by 25 Nov:** Send D the frozen **sample_manifest.csv**. C's complete extracted features are due **29 Nov**.
 
 ### D — OCR and monthly feature integration
 
@@ -144,10 +144,10 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 | Date (2026) | Checkpoint |
 | --- | --- |
-| **25 Nov** | B/E lock target and split; C delivers image sample manifest; C/D pilot their models |
-| **29 Nov** | B's baselines complete; C/D image features integrated and checked |
-| **3 Dec** | E's held-out model comparison and forecast results complete; A starts commercial interpretation |
-| **6 Dec** | Figures, slides and video ready for final review |
+| **25 Nov** | B and E confirm the target and data split; C shares the final sample manifest with D |
+| **29 Nov** | B, C and D complete their assigned work and upload final outputs |
+| **3 Dec** | E completes model comparison, evaluation and forecasts; A receives the results |
+| **5 Dec** | A completes brand analysis and business recommendations |\n| **6 Dec** | Figures, slides and video ready for final review |
 | **7 Dec** | Presentation video submission |
 | **11 Dec** | Final presentation (10-minute presentation + 5-minute Q&A) |
 | **18 Dec** | Final IEEE report (maximum 4 A4 pages) |
@@ -161,7 +161,7 @@ Clone this repository and give your agent the instruction below, replacing [ROLE
 ~~~text
 Read README.md and AGENTS.md in this repository thoroughly. I am responsible for workstream [ROLE] in Section 3.
 
-First inspect the actual available inputs and identify any dependencies that are missing. Do not assume old local paths in brands.csv exist. Implement only my assigned workstream, using the specified output paths and join keys. Begin with a minimal, reproducible pilot, run and verify the code, then process the full eligible data.
+First inspect the actual available inputs and identify any dependencies that are missing. Extract Google Trends.zip before using the paths in brands.csv. Implement only my assigned workstream, using the specified output paths and join keys. Test your code internally, then run and verify the full eligible data; intermediate test results do not need to be submitted separately.
 
 Do not fabricate outputs, data-quality claims, evaluation metrics or results. Keep model versions, data coverage, exact run commands, and any limitations in the workstream notes. Commit code and small derived outputs to my own branch; do not commit raw images, large files or credentials. Return the filenames created, actual metrics observed and any blockers.
 ~~~
