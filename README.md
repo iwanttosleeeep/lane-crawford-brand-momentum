@@ -71,28 +71,28 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Inputs:** images.zip; image manifest; brands.csv.
 
 **Tasks:**
-1. Check that image files match successful manifest rows. Create **one deterministic image sample** to be used by C and D. Initial recommended cap: **10 images per brand-month**, with a fixed seed. Retain all available dates/months and report coverage. Do not independently resample in D.
-2. Run **pretrained CLIP** on these images for visual embeddings or compact semantic features. Record the exact model, checkpoint and image preprocessing.
-3. Run **pretrained YOLO** to extract interpretable object-class counts/presences. Record confidence threshold, model version and classes.
+1. Check image files against the manifest and exclude failed/missing entries. Create **one deterministic image sample** to be used by C and D, using up to **10 images per brand-month** and a fixed seed. Sample from available images, preserve dates/months, and report coverage. Freeze this file by **25 Nov**; D must not resample independently.
+2. Run **pretrained CLIP** on the sampled images for visual embeddings and/or compact semantic features (e.g., CLIP ViT-B/32). Record the exact checkpoint, image preprocessing and output dimensions; do not fit PCA using the full dataset.
+3. Run **pretrained YOLO** (e.g., YOLO11n) on the **same sample** to extract interpretable object-class counts/presences. Record checkpoint, confidence threshold and classes; note that a generic object detector may not recognise specialised luxury-product categories.
 4. Save **per-image** features (not only monthly summaries), identify missing/broken files, and perform a small visual spot-check of detections/semantic outputs.
 5. Provide a simple reproducible run command or notebook. Reuse an available GPU when possible; do not require each member to process all 22,850 files.
 
 **Required outputs:**
-- outputs/images/sample_manifest.csv — unique image_id, handle, slug, timestamp, month, relative image path.
+- outputs/images/sample_manifest.csv — **image_id, file, handle, slug, shortCode, slide, timestamp, month**; set image_id equal to the manifest-relative **file** path (e.g., handle/shortCode_slide.jpg), and ensure one unique row per image.
 - outputs/images/clip_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
 - outputs/images/yolo_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
 - outputs/images/clip_yolo_notes.md — model versions, sample coverage, feature definitions, QC and reproducible commands.
 
-**Required handoff by 25 Nov:** Send D the frozen **sample_manifest.csv**. C's complete extracted features are due **29 Nov**.
+**Required handoffs:** Send D the frozen **sample_manifest.csv** by **25 Nov** and both complete **per-image CLIP and YOLO feature files** by **28 Nov**, so D can integrate them. Final C documentation/QC is due **29 Nov**.
 
 ### D — OCR and monthly feature integration
 
 **Inputs:** C's exact sample_manifest.csv; the corresponding image files; C's CLIP/YOLO outputs.
 
 **Tasks:**
-1. Run pretrained OCR on **exactly the images listed in C's sample_manifest.csv**. Derive compact numeric features such as has_text, number of detected text regions, total characters, or presence of the brand name.
+1. Run **pretrained OCR** (e.g., EasyOCR English) on **exactly the images listed in C's frozen sample_manifest.csv**. Derive compact numeric features such as has_text, number of detected text regions, total characters, or presence of the brand name. Record the OCR library/model and preprocessing.
 2. Save per-image OCR features keyed by image_id. Avoid publishing unnecessary transcribed text or personal content.
-3. Merge CLIP, YOLO and OCR feature tables using image_id, then aggregate into **one row per slug × month**. Record image counts and missingness for each brand-month; prevent accidental duplicate rows.
+3. Implement the merge/aggregation code independently while C processes CLIP/YOLO, then join the completed per-image files when C uploads them by **28 Nov**. Join using **image_id** (equal to file path), then aggregate into **one row per slug × month**. Preserve **n_images** and missingness and check that no images or months are accidentally duplicated.
 4. Keep an explicit feature dictionary and describe how high-dimensional CLIP features are handled. If using PCA or scaling as a fitted step for predictions, **fit only on training data** in E's modelling pipeline, not on the whole dataset.
 5. Validate that every image used at forecast origin t was published on or before t. Any rolling image-window features must be formed from past data only.
 
@@ -101,7 +101,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/images/monthly_image_features.parquet (or CSV) — slug, month, n_images plus numeric feature columns.
 - outputs/images/feature_dictionary.md and outputs/images/integration_checks.md — schema and verification results.
 
-**Due:** Integrated monthly image features by **29 Nov**.
+**Due:** Complete OCR features and integrated monthly image features by **29 Nov**. Do not wait for C's final documentation to start OCR.
 
 ### E — Multimodal prediction, evaluation, and results
 
@@ -127,14 +127,14 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 **Brand key:** Use **slug** from brands.csv for merges. Instagram folders are named by **instagram_handle**, not slug. Join via brands.csv.
 
-**Image key:** The download manifest has a **file** relative path like handle/shortCode_slide.jpg. Use this path as a stable **image_id** across CLIP, YOLO, and OCR; it avoids discrepancies between workers.
+**Image key:** The download manifest has a **file** relative path like handle/shortCode_slide.jpg. Set **image_id = file**, preserve that exact value in every per-image output, and use it to join CLIP, YOLO and OCR without mismatches.
 
 **Time key:** Use calendar **month** in YYYY-MM and **origin_month** for the month at which a prediction is made. All forecasts must be made using information available *by* that origin. The target is computed from the following three complete months.
 
 **Handoffs:**
 - A → C/D: image ZIP and original image manifest.
 - B ↔ E: target formula, shared split, baseline results.
-- C → D: frozen image sample + CLIP/YOLO per-image outputs.
+- C → D: frozen image sample by **25 Nov**; completed CLIP/YOLO per-image outputs by **28 Nov**.
 - D → E: integrated monthly image features.
 - E → A: model evaluation, final watchlist and evidence for business recommendations.
 
@@ -145,9 +145,11 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 | Date (2026) | Checkpoint |
 | --- | --- |
 | **25 Nov** | B and E confirm the target and data split; C shares the final sample manifest with D |
+| **28 Nov** | C delivers both CLIP/YOLO feature files to D for integration |
 | **29 Nov** | B, C and D complete their assigned work and upload final outputs |
 | **3 Dec** | E completes model comparison, evaluation and forecasts; A receives the results |
-| **5 Dec** | A completes brand analysis and business recommendations |\n| **6 Dec** | Figures, slides and video ready for final review |
+| **5 Dec** | A completes brand analysis and business recommendations |
+| **6 Dec** | Figures, slides and video ready for final review |
 | **7 Dec** | Presentation video submission |
 | **11 Dec** | Final presentation (10-minute presentation + 5-minute Q&A) |
 | **18 Dec** | Final IEEE report (maximum 4 A4 pages) |
