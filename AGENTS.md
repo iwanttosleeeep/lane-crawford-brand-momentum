@@ -9,9 +9,10 @@
 3. Test and debug code internally, then complete and verify the full assigned task by its deadline. Intermediate testing is not a separate team deliverable. Provide executable code with a stated environment and actual outputs. Never claim to have run a model, generated a figure or measured a metric unless that happened.
 4. Use the schema and handoff paths specified under the chosen role in README. Use **slug** as the brand join key and the manifest's **file** path as the stable image_id.
 5. Before building a forecasting model, B and E must share **one target formula**, forecast-origin list, training/validation/test split and evaluation definition. Image workstreams C and D must use **one common sample_manifest.csv** (frozen 25 Nov, with image_id = file from the original manifest). C must provide D with complete CLIP/YOLO per-image feature files by **28 Nov**, before D's 29 Nov integration deadline. Do not independently redefine these interfaces.
-6. Train/test leakage checks are mandatory: inputs must exist by forecast origin, targets need future three-month observations, and fitted preprocessing must use training data only.
-7. Record code version, model/checkpoint, sample sizes, exclusions, metrics and any unresolved errors in workstream notes. If dependencies are missing, report the specific blocker and deliver independently runnable partial work.
-8. Keep large files, images, secrets, tokens, raw Instagram exports and personal data out of Git. Commit code, small feature summaries, figures and reproducibility notes to a **workstream branch** and open a pull request for review.
+6. **Feature contract:** Follow README Section 4, 'Fixed feature-extraction contract (C, D and E)', for shared sample, model defaults, image_id, feature columns, monthly aggregation and delivery dates. Agents must not independently invent incompatible interfaces. Place oversized embedding files in the group Drive and document exact paths.
+7. Train/test leakage checks are mandatory: inputs must exist by forecast origin, targets need future three-month observations, and fitted preprocessing must use training data only.
+8. Record code version, model/checkpoint, sample sizes, exclusions, metrics and any unresolved errors in workstream notes. If dependencies are missing, report the specific blocker and deliver independently runnable partial work.
+9. Keep large files, images, secrets, tokens, raw Instagram exports and personal data out of Git. Commit code, small feature summaries, figures and reproducibility notes to a **workstream branch** and open a pull request for review.
 
 ## Start prompt for the operator
 
