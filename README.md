@@ -27,7 +27,7 @@ This predicts the change between the **next three months** and **previous three 
 | **images.zip** (~3.7 GB) | **Google Drive link shared privately in the group chat** | Instagram images organised by account, plus a download manifest. Not stored in GitHub |
 | **download_images.py** and original Apify JSON exports | Ask A / shared Drive archive | Provenance and reproduction reference; model users normally only need the image ZIP and manifest |
 
-**Image download status reported by A (22 Nov 2026):** 22,850 of 22,882 image requests succeeded; 32 failed with a network error. The CSV manifest records the statuses. Do not treat failed entries as existing images.
+**Instagram dataset:** 22,850 downloaded images across 30 brands. See the included manifest for image metadata.
 
 Do not upload the full image ZIP, extracted images, large embeddings, raw exports, or pretrained model weights to GitHub. Small tables, reproducible code, figures, and technical notes belong here.
 
