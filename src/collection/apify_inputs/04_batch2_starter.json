@@ -1,0 +1,27 @@
+{
+  "directUrls": [
+    "https://www.instagram.com/lego/",
+    "https://www.instagram.com/sennheiser/",
+    "https://www.instagram.com/marshall/",
+    "https://www.instagram.com/jomalonelondon/",
+    "https://www.instagram.com/aesop/",
+    "https://www.instagram.com/fortnums/",
+    "https://www.instagram.com/ouraring/",
+    "https://www.instagram.com/nothing/",
+    "https://www.instagram.com/assouline/",
+    "https://www.instagram.com/buccellatimilan/",
+    "https://www.instagram.com/anyahindmarch/",
+    "https://www.instagram.com/vitra/",
+    "https://www.instagram.com/tomdixonstudio/",
+    "https://www.instagram.com/louispoulsen/",
+    "https://www.instagram.com/artemide_lighting/",
+    "https://www.instagram.com/noritakechina/",
+    "https://www.instagram.com/baccarat/",
+    "https://www.instagram.com/frette/"
+  ],
+  "resultsType": "posts",
+  "resultsLimit": 3500,
+  "onlyPostsNewerThan": "2024-11-01",
+  "skipPinnedPosts": true,
+  "addParentData": false
+}
