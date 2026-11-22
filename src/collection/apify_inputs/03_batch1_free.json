@@ -1,0 +1,20 @@
+{
+  "directUrls": [
+    "https://www.instagram.com/knoll/",
+    "https://www.instagram.com/teenageengineering/",
+    "https://www.instagram.com/flos/",
+    "https://www.instagram.com/astierdevillatte/",
+    "https://www.instagram.com/hermanmiller/",
+    "https://www.instagram.com/polaroid/",
+    "https://www.instagram.com/christofle/",
+    "https://www.instagram.com/bangolufsen/",
+    "https://www.instagram.com/kodak/",
+    "https://www.instagram.com/stanley1913_brand/",
+    "https://www.instagram.com/jellycat/"
+  ],
+  "resultsType": "posts",
+  "resultsLimit": 1500,
+  "onlyPostsNewerThan": "2024-11-01",
+  "skipPinnedPosts": true,
+  "addParentData": false
+}
