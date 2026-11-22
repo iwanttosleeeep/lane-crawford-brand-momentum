@@ -16,7 +16,7 @@ y(b,t) = log(1 + mean Google Trends during t+1 to t+3) − log(1 + mean Google T
 
 This predicts the change between the **next three months** and **previous three months** of average search interest. B and E must jointly confirm and freeze this exact definition before modelling; do not independently implement different targets.
 
-**Evaluation:** use the **fixed, purged chronological split in Section 4**; report MAE and Spearman correlation of predicted vs observed brand growth rankings on the same held-out months for all models. This split is 12 training and 4 test forecast origins (75/25 among retained origins) plus 3 purged origins, **not exactly 80/20**; document this explicitly rather than claiming otherwise.
+**Evaluation:** follow the **fixed, purged chronological split in Section 4** and compare MAE and cross-brand Spearman on identical held-out months. The final protocol uses **14 training origins, 2 purged origins and 3 test origins**, giving an approximately **82/18** split of retained origins (close to the required 80/20). Report the actual number of valid brand-month rows.
 
 ## 2. Available data and access
 
@@ -25,11 +25,15 @@ This predicts the change between the **next three months** and **previous three 
 | **brands.csv** | This repository root | 30 selected brands, brand slug, category, official Instagram handle, Google Trends query/topic, expected Trends filename and valid-from date |
 | **Google Trends.zip** | This repository root | Extract the ZIP; its 30 CSVs are in `Google Trends/`, matching `brands.csv` |
 | **images.zip** (~3.7 GB) | **Google Drive link shared privately in the group chat** | Instagram images organised by account, plus a download manifest. Not stored in GitHub |
-| **src/collection/download_images.py** | This repository | Original image-download and source-post sampling script; preserves the historical collection method |\n| **src/collection/apify_official_accounts.json** | This repository | A reproducible list of the 30 official Instagram accounts; not a verified copy of the exact historical Apify run settings |\n| **Other original collection scripts** | See src/collection/README.md | Brand selection, Trends extraction/finalisation and earlier probe-analysis scripts must be restored from their original working directories when available |
+| **src/collection/download_images.py** | This repository | Original image downloader and source-post sampling script |
+| **src/collection/apify_inputs/** | This repository | All **four original Apify run inputs**, including the preliminary probe; do not confuse the probe with final data |
+| **src/collection/analyse_probe.py** | This repository | Original first-probe evaluation script |
+| **src/collection/APIFY_RUNS.md** | This repository | Recorded run settings, returned item counts and which three exports formed the final dataset |
+| **Other collection code** | See src/collection/README.md | Earlier brand-selection and Google Trends retrieval/finalisation scripts remain to be restored |
 
 **Instagram dataset:** 22,850 downloaded images across 30 brands. See the included manifest for image metadata.
 
-Do not upload the full image ZIP, extracted images, large embeddings, raw Apify exports, or pretrained model weights to GitHub. Raw exports may include captions or personal information; only the official-account input list is safe to version. Small tables, reproducible code, figures, and technical notes belong here. Ignore irrelevant Mac archive entries such as `.DS_Store` and `__MACOSX/` when reading the Trends ZIP; re-zipping is optional.
+Do not upload the full image ZIP, extracted images, large embeddings, raw Apify exports, or pretrained model weights to GitHub. Raw exports may include captions or personal information; only the original **Apify input settings** and privacy-safe collection scripts are versioned. Small tables, reproducible code, figures, and technical notes belong here. Ignore irrelevant Mac archive entries such as `.DS_Store` and `__MACOSX/` when reading the Trends ZIP; re-zipping is optional.
 
 ### Known coverage issues and data limitations (check before modelling)
 
@@ -63,7 +67,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 2. Exclude incomplete November 2026 from measured monthly targets. Document geographic scope, per-series 0–100 scaling, single-extraction sampling uncertainty, and historical-source look-ahead. Prefer lagged within-brand growth/ratios to unqualified raw Trends levels; the agreed target may still use log(1+value) but its scaling sensitivity must be disclosed.
 3. Confirm with E the **fixed forecast origins and purged train/test split in Section 4 by 25 Nov**. Target labels require three complete future months. Do not randomly split rows, use purged origins for training, or let training labels extend into the test period.
 4. Implement (a) persistence/no-change and (b) regularised Ridge using historical Trends lags, rolling means and within-brand growth. Produce **two Ridge training-window variants**: **matched-history** (the same 2025 training origins as E), and **extended-history** (use all eligible pre-test Trends-only history from approximately 2022 onward, respecting each brand's valid_from and the same purge/availability cut-off). The extended model is a **separate stronger historical benchmark**, not a direct matched-data ablation against E.
-5. Fit preprocessing and tune hyperparameters on eligible training data only; report held-out MAE and per-month brand-rank Spearman when defined. Save test predictions **on exactly the same four test months and same brand rows as E** for both matched-history and extended-history variants. Report missing/insufficient historical rows.
+5. Fit preprocessing and tune hyperparameters on eligible training data only; report held-out MAE and per-month brand-rank Spearman when defined. Save test predictions **on exactly the same three test months and same brand rows as E** for both matched-history and extended-history variants. Report missing/insufficient historical rows.
 
 **Required outputs:**
 - outputs/trends/trends_monthly.csv — slug, month, trend_value, valid_from (plus documented source metadata).
@@ -147,17 +151,23 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 ### Fixed forecasting-origin and evaluation protocol (B and E)
 
-The Instagram archive starts in **2024-11**. Three months of historical visual features (**t−2, t−1, t**) are required, so the first fully observed forecast origin is **2025-01**. The last complete Trends observation is **2026-10** (2026-11 is partial), and the target uses the **next three complete months**, so the last retrospectively labelled origin is **2026-07**.
+**Forecast timing convention:** Each forecast origin month t refers to a prediction made **at the end of month t**, after that month's monthly Google Trends and Instagram data are available. At that point the previous three months (t−2 through t) are known. The target is the change in mean search interest over the **next three complete months**, t+1 through t+3. Do not treat the forecast as having been issued at the start of month t.
 
-| Split | Forecast origins | Number of months | Approximate rows (30 brands) |
+Instagram extraction starts in **2024-11**, so the first origin with a nominal three-month visual-history window is **2025-01**. The last fully observed Trends month is **2026-10**, so the last origin with all three *future* monthly target values is **2026-07**.
+
+| Split | Forecast origins | Months | Maximum rows (30 brands) |
 | --- | --- | ---: | ---: |
-| **Train** | **2025-01 through 2025-12** | **12** | **360** |
-| **Purge / exclude** | **2026-01 through 2026-03** | **3** | **90** (not trained or tested) |
-| **Test (locked holdout)** | **2026-04 through 2026-07** | **4** | **120** |
+| **Train** | **2025-01 to 2026-02** | **14** | **420** |
+| **Purge (unused)** | **2026-03 to 2026-04** | **2** | **60** |
+| **Test — locked holdout** | **2026-05 to 2026-07** | **3** | **90** |
 
-There are **19** candidate origin months in all. Approximate row counts assume all 30 brands have valid image/Trends coverage and complete labels; **actual complete-case counts may be lower** (notably early Instagram gaps). Training labels for December 2025 use data no later than March 2026. No training examples from the three-month purge may be used: this guards against future-target overlap and training on labels unavailable by the first test origin. Never choose a split after looking at test performance. **12/16 retained months = 75/25 train/test, not strict 80/20**; state the distinction from the course's target ratio and the rationale for the purge.
+There are **19** nominal origin months. The split is **14:3 (82.35% training / 17.65% test of 17 retained months)**, closer to the course's 80/20 requirement than the previous 12:4 split, but **not exactly 80/20**. The two purged months are neither trained nor tested.
 
-The primary fair comparison trains Trends-only and multimodal models on **the same 2025 origins**. B additionally runs a **Trends-only extended-history baseline** using all eligible historical origins before the holdout, approximately from 2022 onward (respect each brand's valid_from and label-availability cut-off). Evaluate both baseline variants on the **identical four locked test months**; clearly distinguish their different training histories. The extended-history baseline must not use labels ending after **2026-03** or any test-period information. Use a predefined training-only validation procedure for hyperparameters (e.g., expanding/rolling origin validation with non-overlapping future label windows); do not tune on the April–July holdout.
+**Why purge two origins?** If the first test origin is **T = 2026-05**, a training label must be fully observed by **the end of T**: for any training origin t, require **t+3 ≤ T**. Therefore the latest training origin is **2026-02**, whose future target months are **March–May 2026**. Origins March and April are excluded because their targets would require months after the May forecast date. The first test forecast (end-May) targets **June–August 2026**; its future outcomes never enter training. Freeze the split before any model fitting or inspection of holdout metrics.
+
+The **420/90 row counts are upper bounds** (14 or 3 months × 30 brands). In particular, Bang & Olufsen and Marshall lack early image months, Stanley begins later, and Jo Malone London misses Dec 2024. Once the three-month image-history rule and any other missingness policy are applied, actual complete-case counts can be lower. **B and E must test on the same observed brand–origin rows.** Publish the eligible-row counts and exclusions. Do not retrospectively change the split to improve model scores.
+
+**Two baseline histories:** In the **matched-history comparison**, B's Trends-only model and E's multimodal variants use the same training origins (Jan 2025–Feb 2026) and the same three held-out origin months (May–Jul 2026). B also runs an **extended-history Trends-only baseline** using all earlier eligible Trends records, generally from 2022 onward, but only with training labels observed by the **end of May 2026** and respecting each brand's valid_from. This is a separate benchmark, not a matched-training-data ablation. All versions evaluate on the **identical May–July 2026 test rows**. Hyperparameter fitting/validation must respect chronological availability and must not use test targets.
 
 ### Fixed feature-extraction contract (C, D and E)
 
