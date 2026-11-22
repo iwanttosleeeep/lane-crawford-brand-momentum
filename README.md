@@ -23,13 +23,11 @@ This predicts the change between the **next three months** and **previous three 
 | Resource | Location | Notes |
 | --- | --- | --- |
 | **brands.csv** | This repository root | 30 selected brands, brand slug, category, official Instagram handle, Google Trends query/topic, expected Trends filename and valid-from date |
-| **Google Trends.zip** | This repository root | Per-brand historical Google Trends CSV files. Inspect actual archive contents before processing |
+| **Google Trends.zip** | This repository root | Extract the ZIP; its 30 CSVs are in `Google Trends/`, matching `brands.csv` |
 | **images.zip** (~3.7 GB) | **Google Drive link shared privately in the group chat** | Instagram images organised by account, plus a download manifest. Not stored in GitHub |
 | **download_images.py** and original Apify JSON exports | Ask A / shared Drive archive | Provenance and reproduction reference; model users normally only need the image ZIP and manifest |
 
 **Image download status reported by A (22 Nov 2026):** 22,850 of 22,882 image requests succeeded; 32 failed with a network error. The CSV manifest records the statuses. Do not treat failed entries as existing images.
-
-**Important path note:** The **trends_file** field in brands.csv refers to paths from an earlier working directory (such as assignment-4/data/trends/final/...). Those directories are **not present in this repository**. Resolve each CSV inside **Google Trends.zip** using its filename/brand slug; report any mismatch rather than assuming the old path exists.
 
 Do not upload the full image ZIP, extracted images, large embeddings, raw exports, or pretrained model weights to GitHub. Small tables, reproducible code, figures, and technical notes belong here.
 
@@ -54,7 +52,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Inputs:** brands.csv; Google Trends.zip.
 
 **Tasks:**
-1. Inspect the Trends ZIP and merge the 30 brand series by **slug and month**. Verify month continuity, validity dates, numeric fields, and query/topic choices. Handle the pre-validity entries for **Nothing** as unavailable, not observed zero.
+1. Extract the Trends ZIP and merge the 30 brand series by **slug and month**. Verify month continuity, validity dates, numeric fields, and query/topic choices. Handle the pre-validity entries for **Nothing** as unavailable, not observed zero.
 2. Exclude incomplete November 2026 from measured monthly targets. Document the geographic scope and scaling/query limitations of the extracted series.
 3. Agree with E on the three-month log-change target, chronological forecast origins, and **one shared train/validation/test protocol** before fitting any model. Labels require three *future* complete months; disallow label overlap/leakage across the training/testing boundary.
 4. Implement two Trends-only baselines: (a) persistence / no-change; (b) regularised Ridge using historical Trends lags, rolling means and recent changes.
