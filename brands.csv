@@ -1,31 +1,31 @@
 brand_name,slug,category,product_count,instagram_handle,trends_source,trends_term,trends_file,trends_valid_from
-Bang & Olufsen,bang-olufsen,audio,22,bangolufsen,topic,/m/055q5t,assignment-4/data/trends/final/bang-olufsen.csv,2021-11-01
-Marshall,marshall,audio,36,marshall,query,Marshall speakers,assignment-4/data/trends/final/marshall.csv,2021-11-01
-Sennheiser,sennheiser,audio,15,sennheiser,topic,/m/01r_r5,assignment-4/data/trends/final/sennheiser.csv,2021-11-01
-Teenage Engineering,teenage-engineering,audio,9,teenageengineering,query,Teenage Engineering,assignment-4/data/trends/final/teenage-engineering.csv,2021-11-01
-Assouline,assouline,books & stationery,39,assouline,topic,/m/05t00qj,assignment-4/data/trends/final/assouline.csv,2021-11-01
-Kodak,kodak,cameras & imaging,25,kodak,topic,/m/0ftdd,assignment-4/data/trends/final/kodak.csv,2021-11-01
-Polaroid,polaroid,cameras & imaging,5,polaroid,topic,/m/017zf_,assignment-4/data/trends/final/polaroid.csv,2021-11-01
-Stanley,stanley,drinkware,391,stanley1913_brand,query,Stanley tumbler,assignment-4/data/trends/final/stanley.csv,2021-11-01
-Anya Hindmarch,anya-hindmarch,fashion,17,anyahindmarch,query,Anya Hindmarch,assignment-4/data/trends/final/anya-hindmarch.csv,2021-11-01
-Buccellati,buccellati,fashion,30,buccellatimilan,topic,/m/0105qz9b,assignment-4/data/trends/final/buccellati.csv,2021-11-01
-Fortnum & Mason,fortnum-mason,food,65,fortnums,topic,/m/05t_x2,assignment-4/data/trends/final/fortnum-mason.csv,2021-11-01
-Aesop,aesop,fragrance,16,aesop,topic,/m/0j_3lkw,assignment-4/data/trends/final/aesop.csv,2021-11-01
-Astier de Villatte,astier-de-villatte,fragrance,305,astierdevillatte,topic,/g/11dxd4gnx5,assignment-4/data/trends/final/astier-de-villatte.csv,2021-11-01
-Jo Malone London,jo-malone-london,fragrance,62,jomalonelondon,topic,/g/11b6s_y1x9,assignment-4/data/trends/final/jo-malone-london.csv,2021-11-01
-Trudon,trudon,fragrance,37,trudon,topic,/m/03c_xjk,assignment-4/data/trends/final/trudon.csv,2021-11-01
-Herman Miller,herman-miller,furniture,2,hermanmiller,query,Herman Miller chair,assignment-4/data/trends/final/herman-miller.csv,2021-11-01
-Knoll,knoll,furniture,18,knoll,query,Knoll furniture,assignment-4/data/trends/final/knoll.csv,2021-11-01
-Vitra,vitra,furniture,8,vitra,query,Vitra furniture,assignment-4/data/trends/final/vitra.csv,2021-11-01
-Frette,frette,home textiles,164,frette,topic,/g/11bc59742y,assignment-4/data/trends/final/frette.csv,2021-11-01
-Artemide,artemide,lighting,13,artemide_lighting,topic,/m/026p2z5,assignment-4/data/trends/final/artemide.csv,2021-11-01
-Flos,flos,lighting,16,flos,query,Flos lighting,assignment-4/data/trends/final/flos.csv,2021-11-01
-Louis Poulsen,louis-poulsen,lighting,8,louispoulsen,topic,/m/0h_dd94,assignment-4/data/trends/final/louis-poulsen.csv,2021-11-01
-Tom Dixon,tom-dixon,lighting,2,tomdixonstudio,query,Tom Dixon lighting,assignment-4/data/trends/final/tom-dixon.csv,2021-11-01
-Nothing,nothing,personal electronics,9,nothing,query,Nothing phone,assignment-4/data/trends/final/nothing.csv,2022-02-01
-Oura,oura,personal electronics,2,ouraring,topic,/g/11jrs8n__7,assignment-4/data/trends/final/oura.csv,2021-11-01
-Baccarat,baccarat,tableware,78,baccarat,query,Baccarat crystal,assignment-4/data/trends/final/baccarat.csv,2021-11-01
-Christofle,christofle,tableware,31,christofle,topic,/m/0b_hbp,assignment-4/data/trends/final/christofle.csv,2021-11-01
-Noritake,noritake,tableware,12,noritakechina,topic,/m/0489tk,assignment-4/data/trends/final/noritake.csv,2021-11-01
-Jellycat,jellycat,toys,275,jellycat,topic,/g/113lj412p,assignment-4/data/trends/final/jellycat.csv,2021-11-01
-LEGO,lego,toys,16,lego,topic,/m/06r6dr,assignment-4/data/trends/final/lego.csv,2021-11-01
+Bang & Olufsen,bang-olufsen,audio,22,bangolufsen,topic,/m/055q5t,Google Trends/bang-olufsen.csv,2021-11-01
+Marshall,marshall,audio,36,marshall,query,Marshall speakers,Google Trends/marshall.csv,2021-11-01
+Sennheiser,sennheiser,audio,15,sennheiser,topic,/m/01r_r5,Google Trends/sennheiser.csv,2021-11-01
+Teenage Engineering,teenage-engineering,audio,9,teenageengineering,query,Teenage Engineering,Google Trends/teenage-engineering.csv,2021-11-01
+Assouline,assouline,books & stationery,39,assouline,topic,/m/05t00qj,Google Trends/assouline.csv,2021-11-01
+Kodak,kodak,cameras & imaging,25,kodak,topic,/m/0ftdd,Google Trends/kodak.csv,2021-11-01
+Polaroid,polaroid,cameras & imaging,5,polaroid,topic,/m/017zf_,Google Trends/polaroid.csv,2021-11-01
+Stanley,stanley,drinkware,391,stanley1913_brand,query,Stanley tumbler,Google Trends/stanley.csv,2021-11-01
+Anya Hindmarch,anya-hindmarch,fashion,17,anyahindmarch,query,Anya Hindmarch,Google Trends/anya-hindmarch.csv,2021-11-01
+Buccellati,buccellati,fashion,30,buccellatimilan,topic,/m/0105qz9b,Google Trends/buccellati.csv,2021-11-01
+Fortnum & Mason,fortnum-mason,food,65,fortnums,topic,/m/05t_x2,Google Trends/fortnum-mason.csv,2021-11-01
+Aesop,aesop,fragrance,16,aesop,topic,/m/0j_3lkw,Google Trends/aesop.csv,2021-11-01
+Astier de Villatte,astier-de-villatte,fragrance,305,astierdevillatte,topic,/g/11dxd4gnx5,Google Trends/astier-de-villatte.csv,2021-11-01
+Jo Malone London,jo-malone-london,fragrance,62,jomalonelondon,topic,/g/11b6s_y1x9,Google Trends/jo-malone-london.csv,2021-11-01
+Trudon,trudon,fragrance,37,trudon,topic,/m/03c_xjk,Google Trends/trudon.csv,2021-11-01
+Herman Miller,herman-miller,furniture,2,hermanmiller,query,Herman Miller chair,Google Trends/herman-miller.csv,2021-11-01
+Knoll,knoll,furniture,18,knoll,query,Knoll furniture,Google Trends/knoll.csv,2021-11-01
+Vitra,vitra,furniture,8,vitra,query,Vitra furniture,Google Trends/vitra.csv,2021-11-01
+Frette,frette,home textiles,164,frette,topic,/g/11bc59742y,Google Trends/frette.csv,2021-11-01
+Artemide,artemide,lighting,13,artemide_lighting,topic,/m/026p2z5,Google Trends/artemide.csv,2021-11-01
+Flos,flos,lighting,16,flos,query,Flos lighting,Google Trends/flos.csv,2021-11-01
+Louis Poulsen,louis-poulsen,lighting,8,louispoulsen,topic,/m/0h_dd94,Google Trends/louis-poulsen.csv,2021-11-01
+Tom Dixon,tom-dixon,lighting,2,tomdixonstudio,query,Tom Dixon lighting,Google Trends/tom-dixon.csv,2021-11-01
+Nothing,nothing,personal electronics,9,nothing,query,Nothing phone,Google Trends/nothing.csv,2022-02-01
+Oura,oura,personal electronics,2,ouraring,topic,/g/11jrs8n__7,Google Trends/oura.csv,2021-11-01
+Baccarat,baccarat,tableware,78,baccarat,query,Baccarat crystal,Google Trends/baccarat.csv,2021-11-01
+Christofle,christofle,tableware,31,christofle,topic,/m/0b_hbp,Google Trends/christofle.csv,2021-11-01
+Noritake,noritake,tableware,12,noritakechina,topic,/m/0489tk,Google Trends/noritake.csv,2021-11-01
+Jellycat,jellycat,toys,275,jellycat,topic,/g/113lj412p,Google Trends/jellycat.csv,2021-11-01
+LEGO,lego,toys,16,lego,topic,/m/06r6dr,Google Trends/lego.csv,2021-11-01
