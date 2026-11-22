@@ -6,7 +6,7 @@ CUHK STAT6207 Applied Deep Learning · Group 14 · Topic 2: Lane Crawford Brand 
 
 **Research question:** Can features extracted from brands' Instagram images using pretrained deep learning models improve forecasts of future Google Trends interest, compared with a Trends-only baseline?
 
-We study **30 existing Lane Crawford brands**. The core deliverable is an evaluated forecast and a **rising / declining brands watchlist**, supported by image-feature analysis and commercial interpretation. After validating the approach, investigate a small number of potential new brands not currently sold by Lane Crawford for a discovery case study.
+We study **30 existing Lane Crawford brands**. The core deliverable is an evaluated forecast and a **rising / declining brands watchlist**, supported by image-feature analysis and commercial interpretation. An optional new-brand case study may be added if required by the final scope and feasible within the data budget; do not delay the core evaluated forecast for it.
 
 **Pipeline:** Instagram posts → pretrained CLIP / YOLO / OCR → brand-month image features; historical Google Trends → prediction targets and baseline; combine both → multimodal forecasting → quantitative evaluation → brand analysis.
 
@@ -16,7 +16,7 @@ y(b,t) = log(1 + mean Google Trends during t+1 to t+3) − log(1 + mean Google T
 
 This predicts the change between the **next three months** and **previous three months** of average search interest. B and E must jointly confirm and freeze this exact definition before modelling; do not independently implement different targets.
 
-**Evaluation:** chronological train/test split targeting the course's 80/20 requirement; MAE on the forecast target and Spearman correlation of predicted vs. observed brand growth rankings. Evaluate both model families on **exactly the same forecast origins and held-out data**.
+**Evaluation:** use the **fixed, purged chronological split in Section 4**; report MAE and Spearman correlation of predicted vs observed brand growth rankings on the same held-out months for all models. This split is 12 training and 4 test forecast origins (75/25 among retained origins) plus 3 purged origins, **not exactly 80/20**; document this explicitly rather than claiming otherwise.
 
 ## 2. Available data and access
 
@@ -25,11 +25,18 @@ This predicts the change between the **next three months** and **previous three 
 | **brands.csv** | This repository root | 30 selected brands, brand slug, category, official Instagram handle, Google Trends query/topic, expected Trends filename and valid-from date |
 | **Google Trends.zip** | This repository root | Extract the ZIP; its 30 CSVs are in `Google Trends/`, matching `brands.csv` |
 | **images.zip** (~3.7 GB) | **Google Drive link shared privately in the group chat** | Instagram images organised by account, plus a download manifest. Not stored in GitHub |
-| **download_images.py** and original Apify JSON exports | Ask A / shared Drive archive | Provenance and reproduction reference; model users normally only need the image ZIP and manifest |
+| **src/collection/download_images.py** | This repository | Original image-download and source-post sampling script; preserves the historical collection method |\n| **src/collection/apify_official_accounts.json** | This repository | A reproducible list of the 30 official Instagram accounts; not a verified copy of the exact historical Apify run settings |\n| **Other original collection scripts** | See src/collection/README.md | Brand selection, Trends extraction/finalisation and earlier probe-analysis scripts must be restored from their original working directories when available |
 
 **Instagram dataset:** 22,850 downloaded images across 30 brands. See the included manifest for image metadata.
 
-Do not upload the full image ZIP, extracted images, large embeddings, raw exports, or pretrained model weights to GitHub. Small tables, reproducible code, figures, and technical notes belong here.
+Do not upload the full image ZIP, extracted images, large embeddings, raw Apify exports, or pretrained model weights to GitHub. Raw exports may include captions or personal information; only the official-account input list is safe to version. Small tables, reproducible code, figures, and technical notes belong here. Ignore irrelevant Mac archive entries such as `.DS_Store` and `__MACOSX/` when reading the Trends ZIP; re-zipping is optional.
+
+### Known coverage issues and data limitations (check before modelling)
+
+- **Instagram availability (reported from the collection):** Bang & Olufsen and Marshall have posts starting **2025-03**; Stanley starts **2025-01**. Older posts appear unavailable/archived, but archival cause is not independently verified. **Jo Malone London has no posts for 2024-12**. C/D should confirm the observed coverage against the manifest and preserve missing brand-months instead of imputing them as zero image content.
+- **Artemide Google Trends (unverified anomaly):** Search interest reportedly jumps substantially in **2025-11**. B should inspect the actual series, source term and adjacent months, investigate whether this reflects interest, a one-off event or measurement/definition change, and report the outcome. **Do not silently cap or remove the observation.**
+- **Google Trends scaling:** Values are 0–100 within each retrieved series over the full five-year window; later peaks influence how earlier months are scaled, so historical backtesting has a **look-ahead-in-the-source** limitation. Use within-brand changes or lagged ratios where appropriate rather than treating raw levels as comparable across brands. The proposed `log(1+value)` growth target is **not exactly scale-invariant**, especially near zero. State this limitation in the report; avoid claiming that the +1 transform fully fixes scaling.
+- **Sampling uncertainty:** Google Trends was pulled **once** per series; Google Trends values can vary when a query is rerun because of sampling. No repeat-extraction reliability study was conducted.
 
 ## 3. Team responsibilities
 
@@ -43,7 +50,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - Share image ZIP and the data manifest with the group and confirm teammates can access them.
 - Clarify brand/Instagram handle mappings and missing-file questions.
 - After E produces validated forecasts, prepare a concise interpretation of rising/declining brands, visual themes, and Lane Crawford relevance.
-- For discovery, identify and verify a small shortlist of potential new brands **not listed as currently sold by Lane Crawford**; use the final model and visual evidence to assess them if sufficient corresponding input data can be collected.
+- **Optional / scope-dependent extension:** by **2 Dec**, decide whether a small set of new brands not currently sold by Lane Crawford can be investigated. Confirm if the lecturer/TA requires it. New brands also need Instagram and Google Trends inputs and could incur **additional Apify charges**; if pursued, collect within the remaining paid-plan window and before the 5 Dec analysis deadline. Do not assume existing 30-brand data suffice to score new brands.
 
 **Deliverable:** Data handoff plus a short, evidence-linked business recommendations section. A is **not** responsible for training the baseline or running image models.
 
@@ -52,11 +59,11 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Inputs:** brands.csv; Google Trends.zip.
 
 **Tasks:**
-1. Extract the Trends ZIP and merge the 30 brand series by **slug and month**. Verify month continuity, validity dates, numeric fields, and query/topic choices. Handle the pre-validity entries for **Nothing** as unavailable, not observed zero.
-2. Exclude incomplete November 2026 from measured monthly targets. Document the geographic scope and scaling/query limitations of the extracted series.
-3. Agree with E on the three-month log-change target, chronological forecast origins, and **one shared train/validation/test protocol** before fitting any model. Labels require three *future* complete months; disallow label overlap/leakage across the training/testing boundary.
-4. Implement two Trends-only baselines: (a) persistence / no-change; (b) regularised Ridge using historical Trends lags, rolling means and recent changes.
-5. Fit preprocessing and hyperparameters using training data only. Report held-out MAE and month-by-month brand-rank Spearman where meaningful; preserve exact test predictions.
+1. Extract the Trends ZIP and merge the 30 brand series by **slug and month**. Verify month continuity, validity dates, numeric fields and query/topic choices. Handle pre-validity entries for **Nothing** as unavailable, not observed zero. Check the reported **Artemide 2025-11 jump** and document any conclusion rather than automatically correcting it.
+2. Exclude incomplete November 2026 from measured monthly targets. Document geographic scope, per-series 0–100 scaling, single-extraction sampling uncertainty, and historical-source look-ahead. Prefer lagged within-brand growth/ratios to unqualified raw Trends levels; the agreed target may still use log(1+value) but its scaling sensitivity must be disclosed.
+3. Confirm with E the **fixed forecast origins and purged train/test split in Section 4 by 25 Nov**. Target labels require three complete future months. Do not randomly split rows, use purged origins for training, or let training labels extend into the test period.
+4. Implement (a) persistence/no-change and (b) regularised Ridge using historical Trends lags, rolling means and within-brand growth. Produce **two Ridge training-window variants**: **matched-history** (the same 2025 training origins as E), and **extended-history** (use all eligible pre-test Trends-only history from approximately 2022 onward, respecting each brand's valid_from and the same purge/availability cut-off). The extended model is a **separate stronger historical benchmark**, not a direct matched-data ablation against E.
+5. Fit preprocessing and tune hyperparameters on eligible training data only; report held-out MAE and per-month brand-rank Spearman when defined. Save test predictions **on exactly the same four test months and same brand rows as E** for both matched-history and extended-history variants. Report missing/insufficient historical rows.
 
 **Required outputs:**
 - outputs/trends/trends_monthly.csv — slug, month, trend_value, valid_from (plus documented source metadata).
@@ -71,7 +78,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Inputs:** images.zip; image manifest; brands.csv.
 
 **Tasks:**
-1. Check image files against the manifest and exclude failed/missing entries. Create **one deterministic image sample** to be used by C and D, using up to **10 images per brand-month** and a fixed seed. Sample from available images, preserve dates/months, and report coverage. Freeze this file by **25 Nov**; D must not resample independently.
+1. Check image files against the manifest and exclude failed/missing entries. Sample **up to 10 distinct posts per brand-month, selecting the first available image slide from each post** (smallest numeric slide index), with a fixed seed. Never treat different slides of the same post as different sampled posts. Freeze a single sample manifest by **25 Nov**; D must not resample independently. Preserve all months and report coverage.
 2. Run **pretrained CLIP** on the sampled images for visual embeddings and/or compact semantic features (e.g., CLIP ViT-B/32). Record the exact checkpoint, image preprocessing and output dimensions; do not fit PCA using the full dataset.
 3. Run **pretrained YOLO** (e.g., YOLO11n) on the **same sample** to extract interpretable object-class counts/presences. Record checkpoint, confidence threshold and classes; note that a generic object detector may not recognise specialised luxury-product categories.
 4. Save **per-image** features (not only monthly summaries), identify missing/broken files, and perform a small visual spot-check of detections/semantic outputs.
@@ -94,7 +101,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 2. Save per-image OCR features keyed by image_id. Avoid publishing unnecessary transcribed text or personal content.
 3. Implement the merge/aggregation code independently while C processes CLIP/YOLO, then join the completed per-image files when C uploads them by **28 Nov**. Join using **image_id** (equal to file path), then aggregate into **one row per slug × month**. Preserve **n_images** and missingness and check that no images or months are accidentally duplicated.
 4. Keep an explicit feature dictionary and describe how high-dimensional CLIP features are handled. If using PCA or scaling as a fitted step for predictions, **fit only on training data** in E's modelling pipeline, not on the whole dataset.
-5. Validate that every image used at forecast origin t was published on or before t. Any rolling image-window features must be formed from past data only.
+5. Validate every input image was published on or before its forecast origin (see Section 4). Missing brand-months, including known early-account gaps, must remain explicit missing observations, not zero-valued image features. Any rolling features must use past data only.
 
 **Required outputs:**
 - outputs/images/ocr_features.parquet (or CSV), keyed by image_id.
@@ -108,9 +115,9 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 **Inputs:** B's targets/splits and baseline predictions; D's monthly_image_features; brands.csv.
 
 **Tasks:**
-1. **Coordinate with B by 25 Nov** to freeze the target, training/validation/test months and exact evaluation observations. Forecast input at t may use only historical Trends and images available by t.
+1. **Coordinate with B by 25 Nov** to confirm the fixed time split in Section 4 and exact evaluation rows. Forecast input at t may use only Trends and images available by t. The matched-history baseline and every multimodal model must share the same training/test origins.
 2. Train a simple, regularised **Trends + image features** model (start with Ridge/Elastic Net or comparable model suitable for the sample size). Use the **same test origins** as B. Fit scaling/PCA/feature selection only on training data.
-3. Compare: Trends-only baseline; Trends + CLIP; Trends + CLIP + YOLO; Trends + CLIP + YOLO + OCR. If a model is infeasible, record why rather than inventing results.
+3. Compare the **matched-history Trends-only baseline** against Trends + CLIP; Trends + CLIP + YOLO; Trends + CLIP + YOLO + OCR under the identical 2025 train / 2026 holdout protocol. Show B's **extended-history Trends-only baseline separately** as an additional benchmark; do not claim it uses the same training information. If a model is infeasible, record why rather than inventing results.
 4. Report held-out MAE, rank correlation by forecast month, and error analysis; include plots of predictions vs actuals and a rising/declining watchlist. A complex LSTM or dashboard is **not required** for the first reproducible result.
 5. After evaluation is frozen, refit the chosen specification on all available **eligible historical observations** and generate future forecasts. Keep actual observed values separate from predictions.
 6. Hand off validated figures, comparison results and interpretation notes to A for commercial analysis.
@@ -138,11 +145,25 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - D → E: integrated monthly image features.
 - E → A: model evaluation, final watchlist and evidence for business recommendations.
 
+### Fixed forecasting-origin and evaluation protocol (B and E)
+
+The Instagram archive starts in **2024-11**. Three months of historical visual features (**t−2, t−1, t**) are required, so the first fully observed forecast origin is **2025-01**. The last complete Trends observation is **2026-10** (2026-11 is partial), and the target uses the **next three complete months**, so the last retrospectively labelled origin is **2026-07**.
+
+| Split | Forecast origins | Number of months | Approximate rows (30 brands) |
+| --- | --- | ---: | ---: |
+| **Train** | **2025-01 through 2025-12** | **12** | **360** |
+| **Purge / exclude** | **2026-01 through 2026-03** | **3** | **90** (not trained or tested) |
+| **Test (locked holdout)** | **2026-04 through 2026-07** | **4** | **120** |
+
+There are **19** candidate origin months in all. Approximate row counts assume all 30 brands have valid image/Trends coverage and complete labels; **actual complete-case counts may be lower** (notably early Instagram gaps). Training labels for December 2025 use data no later than March 2026. No training examples from the three-month purge may be used: this guards against future-target overlap and training on labels unavailable by the first test origin. Never choose a split after looking at test performance. **12/16 retained months = 75/25 train/test, not strict 80/20**; state the distinction from the course's target ratio and the rationale for the purge.
+
+The primary fair comparison trains Trends-only and multimodal models on **the same 2025 origins**. B additionally runs a **Trends-only extended-history baseline** using all eligible historical origins before the holdout, approximately from 2022 onward (respect each brand's valid_from and label-availability cut-off). Evaluate both baseline variants on the **identical four locked test months**; clearly distinguish their different training histories. The extended-history baseline must not use labels ending after **2026-03** or any test-period information. Use a predefined training-only validation procedure for hyperparameters (e.g., expanding/rolling origin validation with non-overlapping future label windows); do not tune on the April–July holdout.
+
 ### Fixed feature-extraction contract (C, D and E)
 
 **Follow this contract directly rather than letting separate agents design incompatible features.** The three pretrained models are feature extractors, not competing forecasting models. C runs CLIP + YOLO; D runs OCR and integrates their results; E performs prediction and evaluation. Internal testing is not a separate team deliverable.
 
-1. **Shared image sample (C; due 25 Nov).** Use only successfully downloaded, existing images listed in the download manifest. Select **up to 10 images per slug × calendar month** using a deterministic random seed (**42**), without replacement. Derive month as YYYY-MM from the original UTC timestamp. Freeze one outputs/images/sample_manifest.csv with exactly these columns: **image_id, file, handle, slug, shortCode, slide, timestamp, month**. Define **image_id = file**, where file is the original relative image path; ensure uniqueness. C and D must process **exactly the same image_ids** and must not independently resample or silently exclude brands/months. Log corrupted/missing images.
+1. **Shared post-level sample (C; due 25 Nov).** From successfully downloaded files in the original manifest, group by **slug × UTC month × shortCode**. Choose the **first available image** for each post (the smallest numeric slide index), then randomly select **up to 10 distinct posts per brand-month** without replacement using seed **42** and a documented deterministic sort. A post is never counted twice within a brand-month. Freeze outputs/images/sample_manifest.csv with: **image_id, file, handle, slug, shortCode, slide, timestamp, month**. Define **image_id = file** (exact original relative path); verify uniqueness. C and D must run on **exactly these same image_ids**. Do not silently drop missing months or corrupt images.
 
 2. **Shared model settings.** Use pretrained inference (evaluation mode), without fine-tuning. Record the model checkpoint, versions, preprocessing, confidence threshold and number of valid images; apply the same settings across all brands for each model. Recommended defaults unless members agree and document a change before processing: **CLIP ViT-B/32**, **YOLO11n pretrained on COCO**, **EasyOCR English**.
 
