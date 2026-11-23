@@ -67,7 +67,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 2. Exclude incomplete November 2026 from measured monthly targets. Document geographic scope, per-series 0–100 scaling, single-extraction sampling uncertainty, and historical-source look-ahead. Prefer lagged within-brand growth/ratios to unqualified raw Trends levels; the agreed target may still use log(1+value) but its scaling sensitivity must be disclosed.
 3. Confirm with E the **fixed forecast origins and purged train/test split in Section 4 by 25 Nov**. Target labels require three complete future months. Do not randomly split rows, use purged origins for training, or let training labels extend into the test period.
 4. Implement (a) persistence/no-change and (b) regularised Ridge using historical Trends lags, rolling means and within-brand growth. Produce **two Ridge training-window variants**: **matched-history** (the same Jan 2025–Feb 2026 training origins as E), and **extended-history** (use all eligible pre-test Trends-only history from approximately 2022 onward, respecting each brand's valid_from and the same purge/availability cut-off). The extended model is a **separate longer-history benchmark**, not a matched-data ablation against E; it may or may not perform better.
-5. Fit preprocessing and tune hyperparameters on eligible training data only; report held-out MAE and per-month brand-rank Spearman when defined. Save test predictions **on exactly the same three test months and same brand rows as E** for both matched-history and extended-history variants. Report missing/insufficient historical rows.
+5. Tune hyperparameters using **purged expanding-window validation grouped by calendar origin month** within the training period (see Section 4), not random K-fold or row-wise gaps on brand-month rows. Report validation folds, selected settings, held-out MAE and per-month brand-rank Spearman when defined. Save test predictions **on exactly the same three test months and same brand rows as E** for both matched-history and extended-history variants. Report missing/insufficient historical rows.
 
 **Required outputs:**
 - outputs/trends/trends_monthly.csv — slug, month, trend_value, valid_from (plus documented source metadata).
@@ -83,14 +83,14 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 **Tasks:**
 1. Check image files against the manifest and exclude failed/missing entries. Sample **up to 10 distinct posts per brand-month, selecting the first available image slide from each post** (smallest numeric slide index), with a fixed seed. Never treat different slides of the same post as different sampled posts. Freeze a single sample manifest by **25 Nov**; D must not resample independently. Preserve all months and report coverage.
-2. Run **pretrained CLIP** on the sampled images for visual embeddings and/or compact semantic features (e.g., CLIP ViT-B/32). Record the exact checkpoint, image preprocessing and output dimensions; do not fit PCA using the full dataset.
+2. Run **pretrained CLIP** on the sampled images for visual embeddings (e.g., CLIP ViT-B/32). **In addition, calculate the eight predefined zero-shot image–text similarity scores from Section 4**, using the same image embeddings and matching CLIP text encoder (no second image inference pass). Record checkpoint, image/text preprocessing, prompt strings and output dimensions; do not fit PCA using the full dataset.
 3. Run **pretrained YOLO** (e.g., YOLO11n) on the **same sample** to extract interpretable object-class counts/presences. Record checkpoint, confidence threshold and classes; note that a generic object detector may not recognise specialised luxury-product categories.
 4. Save **per-image** features (not only monthly summaries), identify missing/broken files, and perform a small visual spot-check of detections/semantic outputs.
 5. Provide a simple reproducible run command or notebook. Reuse an available GPU when possible; do not require each member to process all 22,850 files.
 
 **Required outputs:**
 - outputs/images/sample_manifest.csv — **image_id, file, handle, slug, shortCode, slide, timestamp, month**; set image_id equal to the manifest-relative **file** path (e.g., handle/shortCode_slide.jpg), and ensure one unique row per image.
-- outputs/images/clip_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
+- outputs/images/clip_features.parquet (or CSV) — one row per sampled image, keyed by image_id; retain the original CLIP dimensions and add eight `clip_sem_*` similarity columns in this **same file** (no additional handoff).
 - outputs/images/yolo_features.parquet (or CSV) — one row per sampled image, keyed by image_id.
 - outputs/images/clip_yolo_notes.md — model versions, sample coverage, feature definitions, QC and reproducible commands.
 
@@ -104,7 +104,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 1. Run **pretrained OCR** (e.g., EasyOCR English) on **exactly the images listed in C's frozen sample_manifest.csv**. Derive compact numeric features such as has_text, number of detected text regions, total characters, or presence of the brand name. Record the OCR library/model and preprocessing.
 2. Save per-image OCR features keyed by image_id. Avoid publishing unnecessary transcribed text or personal content.
 3. Implement the merge/aggregation code independently while C processes CLIP/YOLO, then join the completed per-image files when C uploads them by **28 Nov**. Join using **image_id** (equal to file path), then aggregate into **one row per slug × month**. Preserve **n_images** and missingness and check that no images or months are accidentally duplicated.
-4. Keep an explicit feature dictionary and describe how high-dimensional CLIP features are handled. If using PCA or scaling as a fitted step for predictions, **fit only on training data** in E's modelling pipeline, not on the whole dataset.
+4. Keep an explicit feature dictionary covering original CLIP dimensions and eight `clip_sem_*` features. Aggregate both, without performing PCA or other training-dependent fitted transforms. If PCA/scaling is used for prediction, **fit only on each training fold** inside E's modelling pipeline.
 5. Validate every input image was published on or before its forecast origin (see Section 4). Missing brand-months, including known early-account gaps, must remain explicit missing observations, not zero-valued image features. Any rolling features must use past data only.
 
 **Required outputs:**
@@ -120,8 +120,8 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 **Tasks:**
 1. **Coordinate with B by 25 Nov** to confirm the fixed time split in Section 4 and exact evaluation rows. Forecast input at t may use only Trends and images available by t. The matched-history baseline and every multimodal model must share the same training/test origins.
-2. Train a simple, regularised **Trends + image features** model (start with Ridge/Elastic Net or comparable model suitable for the sample size). Use the **same test origins** as B. Fit scaling/PCA/feature selection only on training data.
-3. Compare the **matched-history Trends-only baseline** against Trends + CLIP; Trends + CLIP + YOLO; Trends + CLIP + YOLO + OCR under the identical Jan 2025–Feb 2026 train / May–Jul 2026 holdout protocol. Show B's **extended-history Trends-only baseline separately** as an additional benchmark; do not claim it uses the same training information. If a model is infeasible, record why rather than inventing results.
+2. Train a simple, regularised **Trends + image features** model (start with Ridge/Elastic Net or comparable model suitable for the sample size). Use the **same test origins** as B. Tune regularisation and any PCA dimensions using **purged, month-grouped expanding-window CV (Section 4)**; fit imputation/scaling/PCA/feature selection independently inside each fold's training data, never on validation or locked test data.
+3. Preserve the **main ablation ladder**: matched-history Trends-only vs Trends + full CLIP (train-fold PCA) vs + YOLO vs + OCR, under the identical Jan 2025–Feb 2026 train / May–Jul 2026 holdout protocol. Add **one predeclared, compact and interpretable secondary comparison**: Trends + eight CLIP semantic scores + one within-brand visual-change feature (Section 4), rather than an unlimited model search. Show B's **extended-history Trends-only baseline separately** as an additional benchmark; do not claim it uses the same training information. If a model is infeasible, record why rather than inventing results.
 4. Report held-out MAE, rank correlation by forecast month, and error analysis; include plots of predictions vs actuals and a rising/declining watchlist. A complex LSTM or dashboard is **not required** for the first reproducible result.
 5. After evaluation is frozen, refit the chosen specification on all available **eligible historical observations** and generate future forecasts. Keep actual observed values separate from predictions.
 6. Hand off validated figures, comparison results and interpretation notes to A for commercial analysis.
@@ -130,7 +130,7 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/models/model_comparison.csv — tested model names, data coverage, MAE and rank metrics.
 - outputs/models/test_predictions.csv — slug, origin_month, y_true, y_pred, model.
 - outputs/models/future_forecasts.csv — slug, forecast_origin, predicted_growth, model.
-- outputs/models/figures/ and outputs/models/README.md — plots, evaluation protocol, error analysis, reproducible commands.
+- outputs/models/figures/ and outputs/models/README.md — plots, **internal validation month folds and selected hyperparameters**, evaluation protocol, compact semantic comparison, error analysis, reproducible commands.
 
 **Due:** Complete model comparison and figures by **3 Dec**. D independently reviews E by **5 Dec**.
 
@@ -169,6 +169,18 @@ The **420/90 row counts are upper bounds** (14 or 3 months × 30 brands). In par
 
 **Two baseline histories:** In the **matched-history comparison**, B's Trends-only model and E's multimodal variants use the same training origins (Jan 2025–Feb 2026) and the same three held-out origin months (May–Jul 2026). B also runs an **extended-history Trends-only baseline** using all earlier eligible Trends records, generally from 2022 onward, but only with training labels observed by the **end of May 2026** and respecting each brand's valid_from. This is a separate benchmark, not a matched-training-data ablation. All versions evaluate on the **identical May–July 2026 test rows**. Hyperparameter fitting/validation must respect chronological availability and must not use test targets.
 
+### Internal hyperparameter validation (B and E; mandatory)
+
+The target uses future Trends months **t+1 through t+3**, so adjacent forecast origins share outcome months. **Do not** use shuffled/random K-fold on this brand-month panel. A plain `TimeSeriesSplit(gap=2)` on the flattened panel is **not sufficient**, because its gap is counted in **rows**, not calendar months.
+
+1. Form folds by **unique calendar `origin_month`**, applying each month's assignment to **all eligible brands**. Use **forward-only expanding-window CV** inside the fixed training-origin period, **2025-01–2026-02**; the outer 2026-03/04 purge and 2026-05–07 holdout must never be used for tuning.
+2. For a validation origin **v**, include a training origin **u** only when **u + 3 calendar months ≤ v**. The latest permitted training origin is therefore **v−3**: leave the **two intermediate origin months** out of that fold. All labels in training are then observable by the end of validation month v.
+3. **Predefined candidate validation months:** **2025-10**, **2025-12**, **2026-02**, with latest permitted training origin **2025-07**, **2025-09**, **2025-11** respectively. Fit on all eligible earlier origin months and validate across eligible brands in each designated month. B's extended-history baseline may use its longer past training prefix, while preserving these validation dates. If insufficient valid data require an alternative fold calendar, B and E must agree **before inspecting outer test results**, document the change and retain the three-month label-availability rule.
+4. Select Ridge/Elastic Net regularisation, PCA components and other hyperparameters using **internal validation results only** (e.g., mean monthly-fold MAE). **Refit imputers, scalers, PCA, feature selection and regression from scratch inside each fold's training rows**; apply only `transform/predict` to validation rows. Report folds, row counts by fold, missingness, candidate grid and chosen settings in B/E workstream README files.
+5. After tuning, refit with all eligible **fixed outer training origins through 2026-02**, then evaluate **once** on the **2026-05–07** holdout. Never choose/tune the reported winner from held-out performance; any post-hoc comparison must be labelled exploratory.
+
+The condition addresses **forecast-time data availability**, not simply autocorrelation. Two correctly ordered, purged samples can still be statistically dependent; that does not itself invalidate the evaluation.
+
 ### Fixed feature-extraction contract (C, D and E)
 
 **Follow this contract directly rather than letting separate agents design incompatible features.** The three pretrained models are feature extractors, not competing forecasting models. C runs CLIP + YOLO; D runs OCR and integrates their results; E performs prediction and evaluation. Internal testing is not a separate team deliverable.
@@ -177,15 +189,27 @@ The **420/90 row counts are upper bounds** (14 or 3 months × 30 brands). In par
 
 2. **Shared model settings.** Use pretrained inference (evaluation mode), without fine-tuning. Record the model checkpoint, versions, preprocessing, confidence threshold and number of valid images; apply the same settings across all brands for each model. Recommended defaults unless members agree and document a change before processing: **CLIP ViT-B/32**, **YOLO11n pretrained on COCO**, **EasyOCR English**.
 
-3. **CLIP per-image output (C).** One row per image_id, with a fixed-length visual embedding in columns **clip_000, clip_001, ...** in consistent order. State embedding dimension and checkpoint in clip_yolo_notes.md. No PCA/normalisation fitted across the full dataset; train-only fitting belongs to E.
+3. **CLIP per-image output (C).** One row per image_id with the full original visual embedding in **clip_000, clip_001, ...** plus **eight predefined business-readable similarity fields** (broad enough for all 30 product categories):
+   - `clip_sem_product_closeup` — a close-up product photo on a simple background
+   - `clip_sem_styled_interior` — a styled interior or home-lifestyle photo
+   - `clip_sem_person_using` — a person wearing, holding or using a product
+   - `clip_sem_outdoor_travel` — an outdoor or travel lifestyle photo
+   - `clip_sem_gift_packaging` — wrapped gifts or festive product packaging
+   - `clip_sem_text_graphic` — typographic or promotional graphic
+   - `clip_sem_material_detail` — material or craftsmanship close-up
+   - `clip_sem_product_group` — a curated display of several products
+
+   Use one consistent text-photo prompt template across concepts and record **exact English prompt strings** before model evaluation. Encode text with the **same CLIP checkpoint** that produced the image features; cosine similarity equals the dot product of **L2-normalised image and text embeddings**, **not** a probability. If the saved image features are in the matching CLIP joint embedding space, **reuse them without another image inference pass**. Store these fields in the same `clip_features.parquet` / CSV keyed by `image_id`. State embedding dimension, checkpoint, preprocessing, any scoring failure and the fixed prompts in `clip_yolo_notes.md`. Original embeddings remain available for E's full-feature model; **PCA is fitted only inside E's training folds**, never on all images.
 
 4. **YOLO per-image output (C).** One row per image_id, including **yolo_n_detections** and detection counts for every COCO class as **yolo_<class>_count**, with snake_case class names and a consistent model-wide confidence threshold (default **0.25**). Classes with no detections are zero, not omitted columns. Generic COCO classes cannot distinguish every luxury product or brand.
 
 5. **OCR per-image output (D).** One row per image_id, including **ocr_has_text** (0/1), **ocr_n_regions**, **ocr_n_chars**, **ocr_has_brand_mention** (0/1). For brand mentions use case-insensitive matching to brand_name in brands.csv after normalising punctuation/whitespace; document limitations. Store numerical summaries rather than full transcriptions in the feature table.
 
-6. **D's monthly aggregation.** Start from the frozen sample manifest and left-join one-to-one by image_id to CLIP, YOLO and OCR results. Check duplicates and coverage; do **not** turn a failed image/model result into a zero count. Aggregate **one row per slug × month**, retaining **n_images**, availability/missingness indicators and the **mean of each numeric CLIP dimension, YOLO count and OCR feature over valid images**. Export outputs/images/monthly_image_features.parquet (or CSV) and a feature dictionary. These values describe the sampled images, not all Instagram content.
+6. **D's monthly aggregation.** Start from the frozen sample manifest and left-join one-to-one by image_id to CLIP, YOLO and OCR results. Check duplicates and coverage; do **not** turn a failed image/model result into a zero count. Aggregate **one row per slug × month**, retaining **n_images**, availability/missingness indicators and the **mean of each numeric CLIP dimension, eight `clip_sem_*` scores, YOLO count and OCR feature over valid images**. Export outputs/images/monthly_image_features.parquet (or CSV) and a feature dictionary. These values describe the sampled images, not all Instagram content.
 
-7. **E's forecasting input.** At origin month **t**, use image features from **t and earlier only**; never use t+1 or later. Use image summaries over **t−2 to t** as the default three-month history, with explicit handling for missing brand-months. Fit imputation, scaling, PCA, feature selection and regressions **on the training set only**, then apply to validation/test. Use B's exact target and evaluation rows.
+7. **E's forecasting input.** At origin month **t**, use image features from **t and earlier only**; never use t+1 or later. Use image summaries over **t−2 to t** as the default three-month history, with explicit handling for missing brand-months. During tuning, fit imputation, scaling, PCA, feature selection and regressions **within each CV training fold only**; for final evaluation, fit on the fixed outer train rows and apply without refitting to locked test. Use B's exact target and evaluation rows.
+
+8. **Within-brand visual change (E; secondary compact model).** At each brand/origin **t**, compute `clip_visual_change = 1 − cosine_similarity` between the **monthly mean CLIP vector at t** and the **mean of available monthly CLIP vectors at t−2 and t−1**. L2-normalise both comparison vectors for this cosine calculation; use raw CLIP feature dimensions (not full-series PCA). Require a valid current month and at least one valid prior month; otherwise set this feature **missing**, not zero, and impute only inside the relevant training fold if necessary. This is a lagged **visual-composition change proxy**, not proof of a new product launch or causal sales/search impact. Avoid silently dropping matched test brand–origin rows. Pair it with the fixed eight `clip_sem_*` feature summaries and the same Trends predictors for the single compact secondary comparison.
 
 **Delivery dependencies:** C publishes the frozen sample by **25 Nov**, both complete per-image CLIP/YOLO tables by **28 Nov**, and documentation by **29 Nov**. D runs OCR as soon as the sample is frozen, then integrates C's completed files and delivers the monthly features to E by **29 Nov**. If an embeddings file is too large for GitHub, share it via the group Drive and document the exact Drive location and schema in the repo. Any changes to this contract must be agreed by affected members before downstream work begins.
 
@@ -227,9 +251,9 @@ Team members can implement in Colab, locally, or another suitable environment. E
 
 - Keep reproducible scripts/notebooks, package requirements and exact model checkpoints.
 - Preserve raw inputs. Do not manually edit results to make metrics look better.
-- Split chronologically **before** fitting preprocessing, feature selection, normalisation, PCA or predictive models.
+- Split chronologically **before** fitting preprocessing, feature selection, normalisation, PCA or predictive models. During B/E tuning, enforce the **purged month-grouped expanding-window CV** specified in Section 4; random brand-month K-fold is not allowed.
 - Fix a random seed where applicable and report sample counts by brand/month.
-- Don't train and evaluate on overlapping future target information; train/test fairness matters more than fitting a convenient number of rows.
+- Do not train on target values **unavailable at the validation/test forecast time**; enforce the three-month target-label availability rule and origin-month purges. Train/test fairness matters more than fitting a convenient number of rows.
 - If image features fail to improve the baseline, **report that result honestly** and investigate errors.
 - Independently verify a sample of image-model outputs and regenerate numerical tables from code. Follow the formal cross-review assignments below.
 - Work on a separate branch and open a pull request, so other members can review the changes.
