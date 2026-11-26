@@ -2,9 +2,9 @@
 
 ## Status and scope
 
-The 25 November sample handoff was completed on 26 November 2026 by
-SunshineSs920959. This delivery freezes the shared image list for C's CLIP/YOLO
-and D's OCR. CLIP/YOLO inference remains pending for the 28 November handoff.
+The sample handoff and both complete per-image CLIP/YOLO feature files were
+completed on 26 November 2026 by SunshineSs920959. This delivery includes the
+frozen shared image list and the features D needs to integrate with OCR.
 The repository instructions used were main commit
 `85a12e1aa4cee07c3d1221ee0af6868d863b4d39`.
 
@@ -108,8 +108,9 @@ missing, with explicit availability indicators.
 - Internal temporary fixtures exercised UTC month-boundary conversion,
   missing/corrupt first-slide fallback, failed-download exclusion, duplicate
   manifest rows, input-order invariance, repeatability and freeze protection.
-- No CLIP/YOLO or OCR numerical results are claimed in this handoff. B's required
-  independent review of C remains due by 1 December in a fresh review session.
+- CLIP/YOLO verification results are recorded below. B's required independent
+  review of C remains due by 1 December in a fresh review session. The checks
+  in this implementation chat do not replace that review.
 
 ## Handoff and version control
 
@@ -124,7 +125,150 @@ Frozen sample SHA-256:
 
 The script refuses to replace an existing sample if its bytes would change.
 Coordinate revisions with D before deliberately replacing a frozen manifest.
-For the next delivery, use this exact list with pretrained CLIP ViT-B/32 plus
+The completed features use this exact list with pretrained CLIP ViT-B/32 plus
 the eight specified semantic scores in the same per-image feature file, and
-YOLO11n COCO with confidence threshold 0.25. Checkpoints, exact prompts,
-preprocessing and actual inference QC will be recorded when those runs occur.
+YOLO11n COCO with confidence threshold 0.25. Details and QC follow.
+
+## Fixed feature configuration
+
+The following configuration and prompts were fixed before the inference run.
+Features use the same frozen image list and retain its row order and `image_id`.
+
+- CLIP is `openai/clip-vit-base-patch32`, fixed Hugging Face revision
+  `3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268`. The official weight SHA-256 is
+  `a63082132ba4f97a80bea76823f544493bffa8082296d62d71581a4feff1576f`.
+- Image processing uses the checkpoint's slow `CLIPProcessor`, RGB conversion,
+  bicubic shortest-edge resize to 224, 224-by-224 centre crop, rescaling by
+  1/255, and checkpoint-provided channel means and standard deviations.
+- `clip_000` through `clip_511` retain the full float32 projected image embedding,
+  without PCA or fitted scaling. These projected vectors are saved before L2
+  normalisation. Semantic scores use L2-normalised copies of these vectors
+  and the matching text encoder's projected vectors. Scores are cosine
+  similarities, not probabilities. One image encoder pass produces both outputs.
+- YOLO is COCO-pretrained `yolo11n.pt`, from Ultralytics assets release `v8.3.0`.
+  Weight SHA-256 is
+  `0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1`.
+  Prediction uses confidence 0.25, IoU threshold 0.7, maximum 300 detections,
+  image size 640, square letterboxing (`rect=False`), no augmentation, and
+  float32 CPU inference. All 80 snake_case COCO class-count columns are retained.
+- Both models use pretrained evaluation/inference mode. CPU thread count is
+  eight, with CLIP batch size 32 and YOLO batch size 16. Batch checkpoints are
+  kept in the ignored `.model-cache` directory and checked against image IDs
+  and the input/model/settings fingerprint when resuming.
+
+| Semantic field | Exact English prompt |
+| --- | --- |
+| `clip_sem_product_closeup` | a photo of a close-up product on a simple background |
+| `clip_sem_styled_interior` | a photo of a styled interior or home-lifestyle scene |
+| `clip_sem_person_using` | a photo of a person wearing, holding or using a product |
+| `clip_sem_outdoor_travel` | a photo of an outdoor or travel lifestyle scene |
+| `clip_sem_gift_packaging` | a photo of wrapped gifts or festive product packaging |
+| `clip_sem_text_graphic` | a photo of a typographic or promotional graphic |
+| `clip_sem_material_detail` | a photo of a material or craftsmanship close-up |
+| `clip_sem_product_group` | a photo of a curated display of several products |
+
+Reproduce the feature stage from the repository root using Python 3.12:
+
+```powershell
+python -m venv .venv-c
+.venv-c/Scripts/python.exe -m pip install -r src/images/requirements-features.txt
+.venv-c/Scripts/python.exe src/images/prepare_models.py
+.venv-c/Scripts/python.exe src/images/extract_features.py --images-root "C:\Users\Lenovo\Documents\images\images"
+.venv-c/Scripts/python.exe src/images/verify_features.py --images-root "C:\Users\Lenovo\Documents\images\images"
+```
+
+On other systems, substitute that system's virtual-environment Python path and
+the local image extraction root. Models are downloaded from the official OpenAI
+Hugging Face repository and Ultralytics release assets. `prepare_models.py`
+verifies the weight hashes. The feature command supports `--stage clip` and
+`--stage yolo`. A limited smoke test must use a separate output directory,
+for example `--limit 32 --output .model-cache/smoke`.
+
+Model or image failures stop the run with the completed batches preserved for
+resuming. A failed inference is never silently converted to zero detections or
+a missing output row. Zero YOLO class counts denote completed inference with
+no detection for that class. Missing brand-months are still described by the
+original coverage table and must remain missing in D's aggregate features.
+
+## Completed feature results and QC
+
+Inference ran locally on an Intel Core Ultra 7 155H CPU (eight PyTorch threads),
+using PyTorch 2.8.0+cpu, torchvision 0.23.0+cpu, Transformers 4.57.1,
+Ultralytics 8.3.230, NumPy 2.3.5, pandas 3.0.1, pyarrow 21.0.0 and Pillow 13.0.0.
+No fine-tuning, PCA, fitted feature scaling, target-based filtering or
+hyperparameter selection was performed. Both full runs completed successfully.
+
+| Check | Result |
+| --- | ---: |
+| CLIP rows | 5,863 |
+| Original CLIP dimensions per image | 512 |
+| CLIP semantic scores per image | 8 |
+| YOLO rows | 5,863 |
+| COCO class-count columns | 80 |
+| Missing or duplicate image IDs in either file | 0 |
+| Non-finite numeric values | 0 |
+| Total YOLO detections at confidence 0.25 | 18,452 |
+| Successfully processed images with no COCO detections | 1,026 |
+| Maximum error recomputing all 46,904 semantic scores | 3.2783e-7 |
+| Visual spot-check images across different brands | 8 |
+| Spot-check YOLO counts matching a fresh inference | 8 of 8 |
+
+The CLIP stage took 422.781 seconds and YOLO took 457.469 seconds, including
+stage loading and output writing. Initial dependency/weight downloads, sample
+integrity checks, smoke tests and final verification are additional. The
+32-image smoke test also confirmed resume behavior and output schema. These
+timings describe this machine and run, not a hardware benchmark.
+
+`verify_features.py` checks every image ID against the frozen sample, exact
+column names, finite values, nonzero CLIP vector norms, cosine bounds,
+nonnegative integral YOLO counts, per-row detection totals and file hashes.
+It re-encodes only the eight text prompts and recomputes all semantic scores
+from the saved image embeddings; the maximum numerical error is shown above.
+It then reruns YOLO on eight deterministic source images and renders a local
+annotated contact sheet at `.model-cache/qc/spot_check.jpg`. That image remains
+outside Git. `feature_qc.csv` records the checked image IDs, highest semantic
+score and detection counts. No detection-accuracy percentage is inferred from
+these eight examples.
+
+Visual inspection found these concrete limitations:
+
+- The Aesop bottles, people in the fashion/electronics images, Herman Miller
+  chair and Jellycat plush toys produce broadly recognisable COCO detections.
+- A decorative vertical detail on the Assouline book cover and dark neck detail
+  in the Buccellati portrait were labelled `tie`. These are likely false
+  positives. Generic counts are retained consistently instead of manually
+  correcting selected brands.
+- The Oura example is a text-only graphic and returns zero object detections,
+  while its highest semantic score is `clip_sem_text_graphic`.
+- Semantic scores reflect broad image composition and can be ambiguous for
+  product packaging, book covers or mixed scenes. They are not ground-truth
+  scene labels. Generic COCO detection does not recognise every luxury product
+  category, such as rings, fragrances, specialised speakers or earbuds.
+
+## Files for D
+
+| File | Contents |
+| --- | --- |
+| `sample_manifest.csv` | Frozen 5,863-image list and brand/month keys |
+| `clip_features.parquet` | `image_id`, 512 float32 `clip_*` dimensions, eight float32 `clip_sem_*` fields |
+| `yolo_features.parquet` | `image_id`, integer `yolo_n_detections`, all 80 integer `yolo_<class>_count` fields |
+| `feature_run.json` | Model versions, preprocessing, exact prompts, thresholds, runtime, class order and feature hashes |
+| `feature_checks.json` | Full-table numerical and key checks |
+| `feature_qc.csv` | Eight representative source-image checks |
+| `sample_coverage.csv` | Full 750-row brand-month grid with missing months preserved |
+| `sample_exclusions.csv`, `sample_checks.json` | Original file exclusions and sampling verification |
+
+The CLIP table is 16,490,093 bytes and the YOLO table is 131,069 bytes. They fit
+in the repository as derived tables; raw images, model weights and local batch
+caches are excluded from Git. Both Parquet tables use `image_id` as their only
+join key; D obtains slug/month through a one-to-one left join to the sample.
+The sample SHA-256 above is unchanged. Feature output SHA-256 values are:
+
+- CLIP: `9332165c1d7eea06972f48c802db5858381d7b8733358e2c4046e003daeef61e`
+- YOLO: `6609bd86e12f1bd8e2ba00a6ae6e3c70a7b59b054006a7aa8f940220b66c97c0`
+
+D can now combine these tables with OCR on this same sample, then aggregate
+the original CLIP dimensions, semantic scores, YOLO counts and OCR features
+by slug/month as specified in README. Preserve availability indicators and
+the 15 missing brand-months. Fitted imputation/scaling/PCA belongs inside E's
+training folds.
