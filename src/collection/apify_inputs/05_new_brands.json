@@ -1,0 +1,13 @@
+{
+  "directUrls": [
+    "https://www.instagram.com/owala/",
+    "https://www.instagram.com/baggu/",
+    "https://www.instagram.com/ourplace/",
+    "https://www.instagram.com/dusendusen/"
+  ],
+  "resultsType": "posts",
+  "resultsLimit": 3500,
+  "onlyPostsNewerThan": "2024-11-01",
+  "skipPinnedPosts": true,
+  "addParentData": false
+}
