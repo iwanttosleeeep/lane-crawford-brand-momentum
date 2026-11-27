@@ -99,3 +99,39 @@ Persistence predicts y=0 and has no fitted training window; the schema label `ma
 - `outputs/trends/baseline_predictions.csv`
 - `outputs/trends/baseline_metrics.csv`
 - `outputs/trends/README.md`
+
+## B extension — 27 Nov 2026 (additional files only)
+
+The frozen files and all sections above are unchanged. New supplementary files:
+
+**Priority 1 — zero-shot pretrained time-series benchmark**
+
+- [src/trends/pretrained_ts_baseline.py](../../src/trends/pretrained_ts_baseline.py)
+- [outputs/trends/pretrained_ts_predictions.csv](pretrained_ts_predictions.csv)
+- [outputs/trends/pretrained_ts_report.md](pretrained_ts_report.md)
+
+**Priority 2 — Hong Kong Google Trends coverage audit**
+
+- [src/trends/audit_hk_trends.py](../../src/trends/audit_hk_trends.py)
+- [outputs/trends/hk_coverage_report.md](hk_coverage_report.md)
+
+**Priority 3 — optional descriptive momentum change-point notes**
+
+- [src/trends/momentum_shift_notes.py](../../src/trends/momentum_shift_notes.py)
+- [outputs/trends/momentum_shift_notes.md](momentum_shift_notes.md)
+- [Artemide chart](figures/momentum_artemide.png) · [Louis Poulsen chart](figures/momentum_louis-poulsen.png) · [Jo Malone London chart](figures/momentum_jo-malone-london.png)
+
+## Baseline supplements — 28 Nov 2026 (additional files only)
+
+**Expanded Ridge alpha search (matched history)**
+
+- [src/trends/ridge_expanded_alpha.py](../../src/trends/ridge_expanded_alpha.py)
+- [outputs/trends/ridge_expanded_alpha_predictions.csv](ridge_expanded_alpha_predictions.csv)
+- [outputs/trends/ridge_expanded_alpha_metrics.csv](ridge_expanded_alpha_metrics.csv)
+- [outputs/trends/ridge_expanded_alpha_report.md](ridge_expanded_alpha_report.md)
+
+**Growth-continuation baseline (no training)**
+
+- [src/trends/growth_continuation_baseline.py](../../src/trends/growth_continuation_baseline.py)
+- [outputs/trends/baseline_predictions_extension.csv](baseline_predictions_extension.csv)
+- [outputs/trends/baseline_extension_report.md](baseline_extension_report.md)
