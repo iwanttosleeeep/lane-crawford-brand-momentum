@@ -77,6 +77,12 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 **Deliverable:** Data handoff plus a short, evidence-linked business recommendations section. A is **not** responsible for training the baseline or running image models.
 
+#### 28 Nov additions — A
+
+- **Brand Momentum Index:** Combine per brand-month signals (recent Trends growth, E's predicted growth, post-activity change, and CLIP visual change) using PCA **fitted on training origins only**; assign green/amber/red labels using fixed thresholds stated in advance.
+- **New-brand case study:** Run C/D/E scripts on BAGGU, Dusen Dusen, Our Place, and Owala; report test-month errors as an unseen-brand check and their latest-origin forecasts.
+- **Lightweight dashboard:** Present the watchlist and Brand Momentum Index.
+
 ### B — Google Trends, target construction, and baseline forecasting
 
 **Inputs:** brands.csv; Google Trends.zip.
@@ -131,6 +137,11 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - **Required original work comes first.** B may deliver Priority 1 and/or Priority 2 independently; Priority 3 is optional. If only one is feasible, prioritize the reproducible pretrained time-series benchmark; otherwise explain the blocker and provide the HK coverage audit. Extra models are not automatically better or required to establish the value of visual features.
 - Please alert A and E before changing any shared schema. Put extension files under their **new paths** and link them from \`outputs/trends/README.md\` when complete. Report actual results only after running the code; do not promise a specific runtime, accuracy gain or HK data coverage.
 
+#### 28 Nov additions — B (small follow-ups to delivered work)
+
+- Extend the Ridge alpha candidate grid with **1000** and **10000** (matched-history selected **100**, the previous upper boundary). Re-select using the existing validation procedure and report whether the chosen alpha changes.
+- Add a **growth-continuation** baseline: `y_hat(t) = log1p(mean Trends[t-2..t]) - log1p(mean Trends[t-5..t-3])`. Evaluate on the **same 90 test rows**. Unlike persistence (`y_hat = 0`, undefined Spearman), this provides a rankable naive benchmark.
+
 ### C — CLIP and YOLO feature extraction
 
 **Inputs:** images.zip; image manifest; brands.csv.
@@ -184,6 +195,9 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 
 **Priority:** Complete mandatory OCR and image-feature integration **by 29 Nov** first. This CSV is available now, but any optional activity aggregation must not block E or require re-running the image pipeline.
 
+#### 28 Nov additions — D
+
+- As required for C's pipeline, make the **OCR and monthly aggregation scripts accept input/output paths as arguments**, so A can rerun them on the new-brand sample. Document the **exact command**.
 
 ### E — Multimodal prediction, evaluation, and results
 
@@ -204,6 +218,14 @@ The owner labels are **A–E**; members B–E should claim their role in the gro
 - outputs/models/figures/ and outputs/models/README.md — plots, **internal validation month folds and selected hyperparameters**, evaluation protocol, compact semantic comparison, error analysis, reproducible commands.
 
 **Due:** Complete model comparison and figures by **3 Dec**. D independently reviews E by **5 Dec**.
+
+#### 28 Nov additions — E
+
+- If D delivers `outputs/instagram/monthly_post_activity.csv`, add **one separate** `Trends + post activity` comparison, lagged according to D's point-in-time rules; report it **alongside**, not merged into, the existing image-feature ablation ladder.
+- Include B's **growth-continuation** baseline and the **pretrained time-series** model (if delivered) in `model_comparison.csv`.
+- **Uncertainty:** Bootstrap brands (resample the **30 brands**, **1000 draws**, fixed seed) to estimate the **test MAE difference versus matched-history Ridge**, with a **95% interval**. Do not claim a model is better if the interval contains zero.
+- Save predicted growth for every eligible brand-month origin—**training via out-of-fold predictions, test and future**—in `outputs/models/all_predictions.csv`; A will use it for the Brand Momentum Index.
+- Provide `src/models/predict_new_brands.py` to load the **final fitted model** and score new brands from their monthly-feature and Trends files for **test origins 2026-05..07** and the **latest origin 2026-10**. **Do not use new brands for training or tuning.**
 
 ## 4. Shared interfaces and dependencies
 
