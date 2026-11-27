@@ -1,0 +1,9 @@
+image_id,slug,top_semantic,cosine,yolo_detections,repeated_counts_match
+aesop/DB80l0RxBan_0.jpg,aesop,clip_sem_product_group,0.26459264755249023,"{""bottle"": 2}",True
+assouline/DB65k7KvtWq_0.jpg,assouline,clip_sem_styled_interior,0.2121044397354126,"{""person"": 1, ""tie"": 1}",True
+buccellatimilan/DC8-ykkKUQi_0.jpg,buccellati,clip_sem_person_using,0.22380250692367554,"{""person"": 1, ""tie"": 1, ""wine_glass"": 1}",True
+hermanmiller/DB0_Vn_teKw_0.jpg,herman-miller,clip_sem_styled_interior,0.2697927951812744,"{""book"": 1, ""bottle"": 1, ""chair"": 1, ""sports_ball"": 1}",True
+jellycat/DB0-RJlNlMM_0.jpg,jellycat,clip_sem_styled_interior,0.22173070907592773,"{""teddy_bear"": 2}",True
+marshall/DI6qStbuwbG_0.jpg,marshall,clip_sem_text_graphic,0.2514132857322693,"{""person"": 1}",True
+nothing/DC1wFjrgVzs_0.jpg,nothing,clip_sem_person_using,0.2539733052253723,"{""person"": 1}",True
+ouraring/DC60Q2DyhNH_0.jpg,oura,clip_sem_text_graphic,0.23577116429805756,{},True
