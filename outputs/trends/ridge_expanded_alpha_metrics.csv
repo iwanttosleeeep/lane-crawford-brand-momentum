@@ -1,0 +1,2 @@
+model,training_window,MAE,spearman_2026-05,spearman_2026-06,spearman_2026-07
+ridge,matched_history,0.2039143948,0.2182424917,0.5274749722,0.5737486096

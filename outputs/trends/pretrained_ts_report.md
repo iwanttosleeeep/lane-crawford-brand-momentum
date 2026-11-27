@@ -44,9 +44,10 @@ Existing reference figures (from frozen `baseline_metrics.csv`, not expected out
 
 | model / window | MAE | Spearman 2026-05 | Spearman 2026-06 | Spearman 2026-07 |
 |---|---:|---:|---:|---:|
-| ridge / matched_history | 0.203914 | 0.218242 | 0.527475 | 0.573749 |
+| Ridge matched-history (expanded alpha=100) | 0.203914 | 0.218242 | 0.527475 | 0.573749 |
 | ridge / extended_history | 0.189297 | 0.293437 | 0.544383 | 0.616463 |
 | persistence / matched_history | 0.229590 | undefined | undefined | undefined |
+| growth_continuation (no training) | 0.404265 | -0.527920 | -0.662291 | -0.147052 |
 
 ## Limitations
 
