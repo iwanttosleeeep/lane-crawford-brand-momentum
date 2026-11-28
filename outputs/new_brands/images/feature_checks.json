@@ -1,0 +1,15 @@
+{
+  "sample_rows": 280,
+  "clip_rows": 280,
+  "yolo_rows": 280,
+  "clip_embedding_dimensions": 512,
+  "clip_semantic_dimensions": 8,
+  "yolo_classes": 80,
+  "missing_ids": 0,
+  "duplicate_ids": 0,
+  "nonfinite_values": 0,
+  "max_semantic_recalculation_error": 2.2351741790771484e-07,
+  "repeated_yolo_count_matches": 4,
+  "qc_images": 4,
+  "sample_sha256": "6ca118c83dc3d3fd652a5f55791d8ecab050e6826366bc6cdfddced193b8f296"
+}

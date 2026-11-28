@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "assouline",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/05t00qj",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:18:06+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "f6070784703c1517d20614a8025ea5169a84082576c256976e373cf902b1bc95",
+  "monthly_sha256": "f35bd1a606986cf29290847b407a7d317452522e05bc47c0d198d53f7731c713"
+}

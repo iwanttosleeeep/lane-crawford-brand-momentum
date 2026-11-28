@@ -135,3 +135,26 @@ The frozen files and all sections above are unchanged. New supplementary files:
 - [src/trends/growth_continuation_baseline.py](../../src/trends/growth_continuation_baseline.py)
 - [outputs/trends/baseline_predictions_extension.csv](baseline_predictions_extension.csv)
 - [outputs/trends/baseline_extension_report.md](baseline_extension_report.md)
+
+## A collection handoff — 28 Nov 2026
+
+The four supplied collection scripts are restored under `src/trends/`; the first
+three preserve the original **Worldwide `geo=""`** methodology as historical
+provenance. The fourth is the separate **HK `geo="HK"`** resumable collector.
+See [collection methodology](../../src/trends/README.md).
+
+- [Completed HK CSV](hk_trends_monthly.csv): 1,800 rows, 30 brands x 60 months,
+  2021-11 through 2026-10. [Source/checkpoint notes](hk_collection/README.md).
+- [Baccarat exception](hk_collection/overrides/baccarat/README.md): the original
+  query returned empty HK responses; topic `/g/1ymztwqsw` is explicitly recorded
+  in the final CSV. The other 29 terms remain unchanged.
+- HK sparsity: 1,084/1,800 recorded zeros (60.22%); 15 brands have at least
+  54 zero months. Nothing's three pre-validity rows remain unavailable in analysis.
+- `hk_coverage_report.md` is the earlier failed attempt, before this collection
+  and restoration of the Worldwide code. `hk_collection/collection_report.md`
+  preserves the intermediate 25/30 stop. Their historical statuses do not
+  describe the completed CSV.
+
+All original B results and documentation above are retained. No collection,
+model, target construction or split was rerun or changed. HK is supplementary
+and must not overwrite the frozen Worldwide inputs or baseline/model outputs.

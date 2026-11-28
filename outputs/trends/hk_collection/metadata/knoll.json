@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "knoll",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Knoll furniture",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:22:53+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "613a13a30c5d21c3b727fa3343053551383b79bb0cda67ab43931417e3fe2820",
+  "monthly_sha256": "3d13cefafe17fd54098ee6390a1da81913feb63ea2e36a8b55bd9552d8b840b2"
+}

@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "per_month": 10,
+  "input_manifest": "manifest_new_brands.csv",
+  "input_manifest_sha256": "c3dc1986a48aa924174ca81d189860dc949325a5803d6a21460c715b38df238c",
+  "brands_sha256": "ccdb44c103f8911f6896eedc7f4a710fba8ea5b8915836853669ca0277f9e038",
+  "sample_sha256": "6ca118c83dc3d3fd652a5f55791d8ecab050e6826366bc6cdfddced193b8f296",
+  "source_rows": 1573,
+  "unique_manifest_files": 1573,
+  "disk_image_files": 1567,
+  "unlisted_image_files": 0,
+  "unlisted_files": [],
+  "valid_images": 1567,
+  "distinct_posts": 336,
+  "excluded_rows": 6,
+  "exclusion_reasons": {
+    "download_failed": 6
+  },
+  "selected_images": 280,
+  "sampled_brands": 4,
+  "coverage_month_start": "2024-11",
+  "coverage_month_end": "2026-11",
+  "brand_months": 100,
+  "missing_brand_months": 60,
+  "selected_by_brand": {
+    "baggu": 100,
+    "dusen-dusen": 43,
+    "our-place": 61,
+    "owala": 76
+  },
+  "python": "3.13.18",
+  "pillow": "13.0.0"
+}

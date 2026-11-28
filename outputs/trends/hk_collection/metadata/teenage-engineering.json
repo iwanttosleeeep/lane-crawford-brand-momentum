@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "teenage-engineering",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Teenage Engineering",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:17:43+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "7ccb735d9792c63b74b7788ab32105661d18023e85f9cda4113edd88133a7b4c",
+  "monthly_sha256": "d8347cd5438a7b87bc7d6204cc45c4769c35a6ed9f4760dacd0c8c53456e5406"
+}

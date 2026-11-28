@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "marshall",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Marshall speakers",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:16:55+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "1227011cb9c8e667e8f762b24a3fc657dc7336eba47870bf083985bc95900bc7",
+  "monthly_sha256": "a4b989caead659ca3dd24c280cb56a33af7ebdd052fb7ede1b31d50c62915967"
+}

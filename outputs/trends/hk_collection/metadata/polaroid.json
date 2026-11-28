@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "polaroid",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/017zf_",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:18:53+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "5a3732f664352bed252556a0a2457b8a537db8f2ebfac2f486b540aa88bc210a",
+  "monthly_sha256": "534f497629241f18e30a8457035bb86a349fd2d2610c5e05fb54ab3dfce9b93d"
+}

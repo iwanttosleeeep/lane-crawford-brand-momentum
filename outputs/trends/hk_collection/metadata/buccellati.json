@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "buccellati",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/0105qz9b",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:20:05+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "f123825d5cafdfc97ba759e9cf0deff7108d8c0960c37389c365e62cfee9d3be",
+  "monthly_sha256": "a5530df8ae639d60f9edfe2d8f78559e610e6b0dc4bafdfc4b446288092d0948"
+}

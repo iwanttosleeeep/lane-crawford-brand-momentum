@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "jellycat",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/g/113lj412p",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:35:38+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "57dc4eeade839611e0fa0d4bc13fb267ce0f0c7bed0487e6caf22757c811f921",
+  "monthly_sha256": "73783232f7517bd937ef9894bd79702812be669a639de63d64942e63e4b988fb"
+}

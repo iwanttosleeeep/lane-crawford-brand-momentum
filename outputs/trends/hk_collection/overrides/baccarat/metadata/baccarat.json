@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "baccarat",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/g/1ymztwqsw",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:37:45+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "d4abe17c096fac269617b83f9761e536d1f6dce81f9947e0188f5acdc2753cbc",
+  "monthly_sha256": "0de3525f504dece71bc3f90629afc1c475cecfa9313ae18ff474e7905235eb41"
+}

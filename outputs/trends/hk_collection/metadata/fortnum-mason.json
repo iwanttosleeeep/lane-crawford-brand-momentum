@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "fortnum-mason",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/05t_x2",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:20:28+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "82478ab1074216872562a3d3f197a682cf2278001cfc2eeb6cf9b82713c492b0",
+  "monthly_sha256": "35dba2733ad9c63d5c388f62e45dc7ffbdf19c93ecc692f82a6e29927135d98a"
+}

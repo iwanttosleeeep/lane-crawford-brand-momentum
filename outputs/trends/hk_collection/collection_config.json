@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "brand_rows": [
+    {
+      "slug": "bang-olufsen",
+      "brand_name": "Bang & Olufsen",
+      "trends_source": "topic",
+      "trends_term": "/m/055q5t",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "marshall",
+      "brand_name": "Marshall",
+      "trends_source": "query",
+      "trends_term": "Marshall speakers",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "sennheiser",
+      "brand_name": "Sennheiser",
+      "trends_source": "topic",
+      "trends_term": "/m/01r_r5",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "teenage-engineering",
+      "brand_name": "Teenage Engineering",
+      "trends_source": "query",
+      "trends_term": "Teenage Engineering",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "assouline",
+      "brand_name": "Assouline",
+      "trends_source": "topic",
+      "trends_term": "/m/05t00qj",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "kodak",
+      "brand_name": "Kodak",
+      "trends_source": "topic",
+      "trends_term": "/m/0ftdd",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "polaroid",
+      "brand_name": "Polaroid",
+      "trends_source": "topic",
+      "trends_term": "/m/017zf_",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "stanley",
+      "brand_name": "Stanley",
+      "trends_source": "query",
+      "trends_term": "Stanley tumbler",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "anya-hindmarch",
+      "brand_name": "Anya Hindmarch",
+      "trends_source": "query",
+      "trends_term": "Anya Hindmarch",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "buccellati",
+      "brand_name": "Buccellati",
+      "trends_source": "topic",
+      "trends_term": "/m/0105qz9b",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "fortnum-mason",
+      "brand_name": "Fortnum & Mason",
+      "trends_source": "topic",
+      "trends_term": "/m/05t_x2",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "aesop",
+      "brand_name": "Aesop",
+      "trends_source": "topic",
+      "trends_term": "/m/0j_3lkw",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "astier-de-villatte",
+      "brand_name": "Astier de Villatte",
+      "trends_source": "topic",
+      "trends_term": "/g/11dxd4gnx5",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "jo-malone-london",
+      "brand_name": "Jo Malone London",
+      "trends_source": "topic",
+      "trends_term": "/g/11b6s_y1x9",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "trudon",
+      "brand_name": "Trudon",
+      "trends_source": "topic",
+      "trends_term": "/m/03c_xjk",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "herman-miller",
+      "brand_name": "Herman Miller",
+      "trends_source": "query",
+      "trends_term": "Herman Miller chair",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "knoll",
+      "brand_name": "Knoll",
+      "trends_source": "query",
+      "trends_term": "Knoll furniture",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "vitra",
+      "brand_name": "Vitra",
+      "trends_source": "query",
+      "trends_term": "Vitra furniture",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "frette",
+      "brand_name": "Frette",
+      "trends_source": "topic",
+      "trends_term": "/g/11bc59742y",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "artemide",
+      "brand_name": "Artemide",
+      "trends_source": "topic",
+      "trends_term": "/m/026p2z5",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "flos",
+      "brand_name": "Flos",
+      "trends_source": "query",
+      "trends_term": "Flos lighting",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "louis-poulsen",
+      "brand_name": "Louis Poulsen",
+      "trends_source": "topic",
+      "trends_term": "/m/0h_dd94",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "tom-dixon",
+      "brand_name": "Tom Dixon",
+      "trends_source": "query",
+      "trends_term": "Tom Dixon lighting",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "nothing",
+      "brand_name": "Nothing",
+      "trends_source": "query",
+      "trends_term": "Nothing phone",
+      "trends_valid_from": "2022-02-01"
+    },
+    {
+      "slug": "oura",
+      "brand_name": "Oura",
+      "trends_source": "topic",
+      "trends_term": "/g/11jrs8n__7",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "baccarat",
+      "brand_name": "Baccarat",
+      "trends_source": "query",
+      "trends_term": "Baccarat crystal",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "christofle",
+      "brand_name": "Christofle",
+      "trends_source": "topic",
+      "trends_term": "/m/0b_hbp",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "noritake",
+      "brand_name": "Noritake",
+      "trends_source": "topic",
+      "trends_term": "/m/0489tk",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "jellycat",
+      "brand_name": "Jellycat",
+      "trends_source": "topic",
+      "trends_term": "/g/113lj412p",
+      "trends_valid_from": "2021-11-01"
+    },
+    {
+      "slug": "lego",
+      "brand_name": "LEGO",
+      "trends_source": "topic",
+      "trends_term": "/m/06r6dr",
+      "trends_valid_from": "2021-11-01"
+    }
+  ]
+}

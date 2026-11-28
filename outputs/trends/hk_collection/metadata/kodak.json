@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "kodak",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/0ftdd",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:18:30+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "a790955d256dc56081723e8fee69ee3ace266105b9f0597f938c3858ae54f516",
+  "monthly_sha256": "aebbed5fa2eec6b1c5b9eb1a32d6582cfcfdf2247d7e08e3eb34eb5752a63505"
+}

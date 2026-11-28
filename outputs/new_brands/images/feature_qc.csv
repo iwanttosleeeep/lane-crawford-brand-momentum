@@ -1,0 +1,5 @@
+image_id,slug,top_semantic,cosine,yolo_detections,repeated_counts_match
+baggu/DU8HiuDlkwp_0.jpg,baggu,clip_sem_gift_packaging,0.24649643898010254,"{""suitcase"": 1}",True
+dusendusen/DUYbkRKkaua_0.jpg,dusen-dusen,clip_sem_gift_packaging,0.2902381420135498,"{""bed"": 1, ""book"": 9}",True
+ourplace/DUrKQbmks3V_0.jpg,our-place,clip_sem_product_group,0.2649535536766052,"{""person"": 2}",True
+owala/DU3dvP6gQQf_0.jpg,owala,clip_sem_product_closeup,0.26285526156425476,"{""potted_plant"": 1}",True

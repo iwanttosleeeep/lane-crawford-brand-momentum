@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "flos",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Flos lighting",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:24:30+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "aaa65d05e1ec8ee75e79a5254bce023851756c88d073cbcffbf34631fe06522d",
+  "monthly_sha256": "87a36cfe234f78cb1812fe7d2c779071478a3dbc13a89785b213ccb0bd5aaea7"
+}

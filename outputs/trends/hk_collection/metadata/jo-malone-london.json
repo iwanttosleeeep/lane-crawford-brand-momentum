@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "jo-malone-london",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/g/11b6s_y1x9",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:21:39+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "34ad0f20f5cc3d179c403beeefbe51078fc61bec30c63681e446eb1e0ea8e66e",
+  "monthly_sha256": "0b00385b54000638a18cc9d7b602fbff4a2229ffee3307dde4b7b3918b5a99e2"
+}

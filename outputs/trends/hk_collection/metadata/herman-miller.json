@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "herman-miller",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Herman Miller chair",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:22:29+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "09c99217c17a6eebe7810ce819475a52e32fd94cadddf0ae0bb5645924a886ca",
+  "monthly_sha256": "2a8ef6995afc15574fbc56ae08d38eccf3145241fffb14643062db59dfa8c945"
+}

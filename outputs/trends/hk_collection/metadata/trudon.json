@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "trudon",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/03c_xjk",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:22:03+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "1f6e5fb9f8afafad997949f26b502c6ea090d78dca27a9b527163ff4cf2872f3",
+  "monthly_sha256": "9aafec5703c8f39f5da955bd6164e9652bc9194dd3a7405866f537428c9533af"
+}
