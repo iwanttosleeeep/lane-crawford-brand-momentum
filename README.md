@@ -29,11 +29,38 @@ This predicts the change between the **next three months** and **previous three 
 | **src/collection/apify_inputs/** | This repository | All **four original Apify run inputs**, including the preliminary probe; do not confuse the probe with final data |
 | **src/collection/analyse_probe.py** | This repository | Original first-probe evaluation script |
 | **src/collection/APIFY_RUNS.md** | This repository | Recorded run settings, returned item counts and which three exports formed the final dataset |
-| **Other collection code** | See src/collection/README.md | Earlier brand-selection and Google Trends retrieval/finalisation scripts remain to be restored |
+| **Google Trends collection scripts** | [src/trends/README.md](src/trends/README.md) | Original Worldwide collection/recheck/finalisation provenance and the separate resumable HK collector |
+| **HK Trends supplement** | [outputs/trends/hk_trends_monthly.csv](outputs/trends/hk_trends_monthly.csv) | 30 brands, 60 months; HK-specific sparse series with an explicit Baccarat topic exception |
+| **New-brand CLIP/YOLO features** | [outputs/new_brands/images/README.md](outputs/new_brands/images/README.md) | A's 280-image handoff for four candidates; never used for training or tuning |
+| **Other collection code** | See src/collection/README.md | Earlier Lane Crawford catalogue/brand-selection scripts remain to be restored |
 
 **Instagram dataset:** 22,850 downloaded images across 30 brands. See the included manifest for image metadata.
 
 Do not upload the full image ZIP, extracted images, large embeddings, raw Apify exports, or pretrained model weights to GitHub. Raw exports may include captions or personal information; only the original **Apify input settings** and privacy-safe collection scripts are versioned. Small tables, reproducible code, figures, and technical notes belong here.
+
+### Trends collection provenance and HK supplement (28 Nov 2026)
+
+The original Worldwide collection uses **`geo=""`**, one brand/topic or query at
+a time, and `today 5-y`. Monthly averaging is performed during fetching and
+rechecking by `fetch_google_trends.py` and `recheck_google_trends.py`.
+`finalize_trends.py` selects and copies the already aggregated monthly series,
+adding `valid_from` metadata; it does not perform the averaging.
+See [the collection methodology](src/trends/README.md).
+
+The separate **`geo="HK"`** handoff contains **1,800 rows (30 brands x 60 months,
+2021-11 through 2026-10)**. Baccarat is the explicit exception: the HK query
+`Baccarat crystal` returned empty responses, so topic `/g/1ymztwqsw` was supplied
+instead; every Baccarat row records the changed source/term. The other 29 terms
+are unchanged. See [the exception](outputs/trends/hk_collection/overrides/baccarat/README.md).
+
+HK is sparse: **1,084/1,800 recorded zeros (60.22%)**, with at least 54 zero
+months for 15 brands. Nothing's three pre-validity months remain unavailable for
+analysis. HK and Worldwide are independently normalised indices, not comparable
+absolute search volumes. [Completed HK notes](outputs/trends/hk_collection/README.md)
+supersede the status of the preserved earlier blocked/stopped reports. This
+supplement does not replace the frozen Worldwide data, baseline/model outputs
+or training/test split. The new-brand feature handoff remains outside training
+and tuning.
 
 ### Instagram post-level engagement metadata (added 27 Nov 2026)
 

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "bang-olufsen",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/055q5t",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:16:31+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "632ce404c815fecccf7629a62ae978a858f771cb5337813a146c37e266199f08",
+  "monthly_sha256": "1738d5af194107c7e5200443e382d80da88899d6992d851fcf7b51a3b64b6524"
+}

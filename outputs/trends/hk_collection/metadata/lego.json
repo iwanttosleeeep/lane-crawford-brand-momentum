@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "lego",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/06r6dr",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:36:01+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "1f9f24632b678ada5fafde6d0c04af1bd2a74f7b7d8afc886b28689e4c9742cb",
+  "monthly_sha256": "f1fa657a3f3759196d0d0c72e293e847d9b09d61839ae13fb35f57c0fbbcdd0f"
+}

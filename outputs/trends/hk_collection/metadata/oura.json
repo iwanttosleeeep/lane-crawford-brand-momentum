@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "oura",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/g/11jrs8n__7",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:31:13+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "fc68292d53bd8615088d4c923cc8ea9b5ee29d56cd6856bdc0164766721c7953",
+  "monthly_sha256": "43e4446747deae1918985c7fe4e98dd0eacf7634ff6ab76a1eb7e39064168398"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "sennheiser",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/01r_r5",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:17:19+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "77e222c17abc3cf58b4ccc21e5704f25b2ebd9f2543b6a279b7199588764650a",
+  "monthly_sha256": "b667983b4ebbc295d7bede45cf3e27817c81c77a5ee824d286e789a48717fc94"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "artemide",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/026p2z5",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:24:04+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "60dd1d708dd5ef32dd01c74ff298e7251173a438685221bb9546f4625ebd2787",
+  "monthly_sha256": "bee14f0d80e41822b878b947a9ccf158c65d112389eb23d56cbd6663931d2d66"
+}

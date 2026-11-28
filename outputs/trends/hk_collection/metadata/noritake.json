@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "noritake",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/0489tk",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:35:15+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "d8a35db7340caa9fce613237cdf07c500d6ca5298a99498f2ecbc0dca44ec136",
+  "monthly_sha256": "8f5fe13c6f91fd950913e7dc8f2596ae50cd26c1e136c3e1e32792924cb2dc03"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "astier-de-villatte",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/g/11dxd4gnx5",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:21:16+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "50e59250a03392982d9b8ac927ebcf92b79ab008e025fd6a5c6673994d5d9135",
+  "monthly_sha256": "61f14997e4abb573162a3ed1d22cc05987bb726d6d54bcd39e1f1fdb65c8a2c4"
+}

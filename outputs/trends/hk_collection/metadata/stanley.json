@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "stanley",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Stanley tumbler",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:19:17+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "aee581585187d82fa0ac972f7b5a4461fb8f229752a43b1f63cdfc0ce3c5d6fb",
+  "monthly_sha256": "32bc28e084e8b04608ecdcde54ea109f700775c31d959f888e75e9f81a82934f"
+}

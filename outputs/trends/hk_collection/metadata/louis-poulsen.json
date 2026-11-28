@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "louis-poulsen",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "topic",
+  "trends_term": "/m/0h_dd94",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:24:54+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "427fa4771868ac83dd1f16dac0abdea323fc328b9f859e8812af5509c7874cd5",
+  "monthly_sha256": "e2a748d1372ebfe385feb764e5c306876fb167245a4ad2995a39e4cf44831ba4"
+}

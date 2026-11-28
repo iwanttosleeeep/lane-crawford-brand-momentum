@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "tom-dixon",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Tom Dixon lighting",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:30:29+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "5a56e05fb277cfb8c8df644be8ec36964fd35d72680575abd6715352eea81786",
+  "monthly_sha256": "22cd3955378c158fb1d3a27c656459b7add31046c4229618172f85d36baa61dc"
+}

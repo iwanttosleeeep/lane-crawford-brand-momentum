@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "nothing",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Nothing phone",
+  "valid_from": "2022-02-01",
+  "retrieved_at_utc": "2026-11-28T03:30:51+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "e55ca307ba36246e9c255947ba497a5944cd9cb856230065cb957c312cbc615f",
+  "monthly_sha256": "c65f5b4c7c22134d62288845c7d29ca1209f1e4e6fef5be6b2e1eb9108ef27a1"
+}

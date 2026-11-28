@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "anya-hindmarch",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Anya Hindmarch",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:19:41+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "331f0f7fb2a8caf1c01b8fa7d89aba248e05c138556196d8a1c19666a328aa3d",
+  "monthly_sha256": "65ff76eabc6aa7e21c80d948b5b137e5925cf71810bbd4c705a77fc03c89fb72"
+}

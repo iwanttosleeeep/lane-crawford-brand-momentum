@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "vitra",
+  "geo": "HK",
+  "timeframe": "2021-11-01 2026-10-31",
+  "trends_source": "query",
+  "trends_term": "Vitra furniture",
+  "valid_from": "2021-11-01",
+  "retrieved_at_utc": "2026-11-28T03:23:17+00:00",
+  "n_raw_observations": 261,
+  "n_months": 60,
+  "raw_sha256": "589a17b1fd2ac5a78af53331fcc8085a0371abf3633423ac7804fa2c82124b16",
+  "monthly_sha256": "36ab7a64fd8e8df2df882b935881f591fc20664da60bc4c7397a6530740a3f5d"
+}
