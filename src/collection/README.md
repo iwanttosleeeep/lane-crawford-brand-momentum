@@ -17,7 +17,7 @@ This folder preserves original, non-sensitive collection scripts and configurati
 
 ## Original scripts not yet restored
 
-The files above document **Apify inputs, the probe analyser and the image downloader**. The supplied original Google Trends retrieval, recheck and finalisation scripts have now been restored byte-for-byte under `src/trends/`, alongside the separate resumable HK collector. See [Worldwide and HK collection provenance](../trends/README.md), including the Baccarat topic exception and sparse HK data. Historical local paths in the first three scripts are retained as provenance and may not run in this checkout.
+The files above document **Apify inputs, the probe analyser and the image downloader**. The original Google Trends retrieval, recheck and finalisation scripts are preserved under `src/trends/`, alongside the separate resumable HK collector. Monthly averaging occurs during fetching/rechecking; finalisation selects and copies the already aggregated series. See [Worldwide and HK collection provenance](../trends/README.md), including the Baccarat topic exception and sparse HK data.
 
 The earlier Lane Crawford catalogue/brand-selection scripts are still not restored. The collection files do not reproduce every historical selection step. Do not invent replacement scripts and describe them as original collection code.
 

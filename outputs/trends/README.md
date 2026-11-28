@@ -3,7 +3,6 @@
 ## Run
 
 ```bash
-cd D:\lane-crawford-brand-momentum
 python src/trends/clean_trends.py
 python src/trends/build_targets_split.py
 python src/trends/baseline_trends.py
@@ -141,6 +140,9 @@ The frozen files and all sections above are unchanged. New supplementary files:
 The four supplied collection scripts are restored under `src/trends/`; the first
 three preserve the original **Worldwide `geo=""`** methodology as historical
 provenance. The fourth is the separate **HK `geo="HK"`** resumable collector.
+Monthly averaging is performed by the fetching/rechecking scripts.
+`finalize_trends.py` selects and copies already aggregated monthly series and
+adds `valid_from` metadata; it does not perform the averaging.
 See [collection methodology](../../src/trends/README.md).
 
 - [Completed HK CSV](hk_trends_monthly.csv): 1,800 rows, 30 brands x 60 months,

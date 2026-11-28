@@ -2,25 +2,23 @@
 
 ## Original Worldwide collection (`geo=""`)
 
-The restored local source files are preserved byte-for-byte as supplied:
+The original Worldwide workflow uses three scripts:
 
 - `fetch_google_trends.py`: fetch one brand at a time using pytrends 4.9.2,
   `hl="en-US"`, `tz=0`, Web Search (`gprop=""`), all categories (`cat=0`),
   `timeframe="today 5-y"`, and **Worldwide `geo=""`**. Topic entities use the
   custom `TopicTrendReq` payload; historical selection uses suggestion-title/type
-  checks and falls back to the recorded search query when appropriate.
-- `recheck_google_trends.py`: retain separate diagnostic/recheck variants rather
-  than silently replace the original series.
-- `finalize_trends.py`: choose the documented variants, average observations by
-  calendar month, and write the final series plus `valid_from` metadata.
+  checks and falls back to the recorded search query when appropriate. It
+  averages returned observations by calendar month during fetching.
+- `recheck_google_trends.py`: fetch diagnostic/recheck variants and perform the
+  same monthly averaging, retaining those series separately.
+- `finalize_trends.py`: select the documented variants and copy the **already
+  aggregated monthly series** into the final files, adding `valid_from` metadata.
+  It does **not** perform monthly averaging.
 
-These files document the original collection methodology; they are **provenance,
-not a request to collect again**. Their historical `data/legacy_final_project_brands.csv`
-and local output paths are not the current repository's input contract, and that
-legacy table is not included here. The historical selection also predates the
-current frozen `brands.csv`. The files have not been rewritten to make that old
-workflow run against the current repository. Use the supplied `Google Trends.zip`
-and B's existing cleaned table for the frozen Worldwide baseline.
+Monthly averaging therefore occurs during **fetching/rechecking, before
+finalisation**. The scripts preserve the Worldwide collection provenance;
+`Google Trends.zip` and B's existing cleaned table remain the frozen baseline inputs.
 
 The scripts now make the configured Worldwide geography explicit. Older CSVs
 themselves contain no geo column; the earlier HK audit recorded that lack of

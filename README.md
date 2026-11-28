@@ -40,10 +40,11 @@ Do not upload the full image ZIP, extracted images, large embeddings, raw Apify 
 
 ### Trends collection provenance and HK supplement (28 Nov 2026)
 
-The original Worldwide collection is now documented by the restored source
-scripts: **`geo=""`**, one brand/topic or query at a time, `today 5-y`, and
-calendar-month means of returned observations. The three historical scripts are
-preserved as provenance; their legacy local paths may not run in this checkout.
+The original Worldwide collection uses **`geo=""`**, one brand/topic or query at
+a time, and `today 5-y`. Monthly averaging is performed during fetching and
+rechecking by `fetch_google_trends.py` and `recheck_google_trends.py`.
+`finalize_trends.py` selects and copies the already aggregated monthly series,
+adding `valid_from` metadata; it does not perform the averaging.
 See [the collection methodology](src/trends/README.md).
 
 The separate **`geo="HK"`** handoff contains **1,800 rows (30 brands x 60 months,
